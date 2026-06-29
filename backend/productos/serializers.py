@@ -1,17 +1,5 @@
 from rest_framework import serializers
 from .models import Producto, Categoria
-from django.contrib.auth.models import User
-
-class RegistroSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
-        extra_kwargs = {'password': {'write_only': True}} # Para que la contraseña no se devuelva en la respuesta
-
-    def create(self, validated_data):
-        # Creamos al usuario usando create_user para que la contraseña se guarde encriptada
-        user = User.objects.create_user(**validated_data)
-        return user
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
