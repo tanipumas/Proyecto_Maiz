@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Insumos Molineros de México</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos para el Modal Flotante de Login y Registro */
+        .modal-login {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.5); 
+            align-items: center; 
+            justify-content: center;
+        }
+        .modal-contenido {
+            background-color: white; 
+            padding: 30px; 
+            border-radius: 8px; 
+            width: 100%; 
+            max-width: 350px; 
+            position: relative;
+            text-align: center;
+        }
+        .btn-cerrar-modal {
+            position: absolute; 
+            top: 10px; right: 15px; 
+            font-size: 1.5rem; 
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        .modal-contenido input {
+            width: 100%; padding: 10px; margin: 10px 0;
+            border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+        }
+        .modal-contenido button[type="submit"] {
+            width: 100%; padding: 12px; background-color: #2e7d32;
+            color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo" onclick="window.location.href='index.html'">
+            🌾 INSUMOS MOLINEROS DE MÉXICO
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 35px;">
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html" class="active">Tienda</a></li>
+                <li id="menu-privado-perfil" style="display: none;"><a href="perfil.html">Mi Perfil</a></li>
+                <li id="menu-privado-carrito"><a href="carrito.html" class="nav-cart">🛒 Carrito (0)</a></li>
+            </ul>
+            
+            <div id="auth-seccion" style="display: flex; gap: 15px; align-items: center;">
+                <button id="btn-nav-login" class="nav-btn" onclick="abrirModalAutenticacion()">🔐 Iniciar Sesión</button>
+                <button id="btn-nav-registro" class="nav-btn" onclick="abrirModalRegistro()" style="background-color: #1565c0; border-color: #1565c0;">📝 Registrarse</button>
+                
+                <div id="nav-usuario-info" style="display: none; align-items: center; gap: 15px;">
+                    <span id="nav-nombre-usuario" style="font-weight: bold; color: white; font-family: 'Poppins', sans-serif;"></span>
+                    <button class="nav-btn" onclick="cerrarSesionCliente()" style="background-color: #c62828; border-color: #c62828; padding: 5px 12px;">Salir</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="modal-registro" class="modal-login" style="display: none;">
+        <div class="modal-contenido" style="max-width: 400px; max-height: 85vh; overflow-y: auto; text-align: left;">
+            <button class="btn-cerrar-modal" onclick="cerrarModalRegistro()">&times;</button>
+            <h2 style="color: #2c3e50; margin-top: 0; text-align: center;">Crea tu cuenta</h2>
+            
+            <form id="form-registro-modal">
+                <p style="font-weight: bold; margin-bottom: 5px; color: #555;">Tu información básica</p>
+                
+                <label style="font-size: 0.9rem;">Género:</label>
+                <select id="reg-genero" style="width: 100%; padding: 8px; margin: 5px 0 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="">Selecciona...</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+
+                <input type="text" id="reg-nombre" placeholder="* Nombre(s)" required>
+                <input type="text" id="reg-apellido" placeholder="* Apellido(s)" required>
+                <input type="text" id="reg-username" placeholder="* Crea un nombre de usuario" required>
+
+                <label style="font-size: 0.9rem; display: block; margin-top: 5px;">Fecha de nacimiento:</label>
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <select id="reg-dia" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required>
+                        <option value="">Día</option>
+                        <script>for(let i=1;i<=31;i++) document.write(`<option value="${i}">${i}</option>`);</script>
+                    </select>
+                    
+                    <select id="reg-mes" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required>
+                        <option value="">Mes</option>
+                        <option value="01">enero</option><option value="02">febrero</option><option value="03">marzo</option>
+                        <option value="04">abril</option><option value="05">mayo</option><option value="06">junio</option>
+                        <option value="07">julio</option><option value="08">agosto</option><option value="09">septiembre</option>
+                        <option value="10">octubre</option><option value="11">noviembre</option><option value="12">diciembre</option>
+                    </select>
+                    
+                    <select id="reg-anio" style="flex: 1.5; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required>
+                        <option value="">Año</option>
+                        <script>for(let i=2026;i>=1916;i--) document.write(`<option value="${i}">${i}</option>`);</script>
+                    </select>
+                </div>
+
+                <input type="email" id="reg-correo" placeholder="* Correo electrónico" required>
+
+                <p style="font-weight: bold; margin: 15px 0 5px 0; color: #555;">Tu información de contacto</p>
+                <input type="tel" id="reg-telefono" placeholder="Teléfono">
+
+                <p style="font-weight: bold; margin: 15px 0 5px 0; color: #555;">Tu contraseña</p>
+                <input type="password" id="reg-password" placeholder="* Contraseña" required>
+                <input type="password" id="reg-confirm-password" placeholder="* Confirmar contraseña" required>
+
+                <button type="submit" style="width: 100%; padding: 12px; background-color: #1565c0; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;">Registrarme 📝</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-auth" class="modal-login" style="display: none;">
+        <div class="modal-contenido">
+            <button class="btn-cerrar-modal" onclick="cerrarModalAutenticacion()">&times;</button>
+            <h2 style="color: #2c3e50; margin-top: 0;">Iniciar Sesión</h2>
+            <form id="form-login-modal">
+                <input type="text" id="modal-username" placeholder="Nombre de usuario" required>
+                <input type="password" id="modal-password" placeholder="Contraseña" required>
+                <button type="submit">Ingresar 🔑</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="contenedor-principal" style="padding: 40px 20px;">
+        <div id="contenedor-productos"></div>
+    </main>
+<footer class="footer-corporativo">
+        <div class="footer-contenedor">
+            
+            <div class="footer-columna">
+                <h3>Insumos Molineros</h3>
+                <p>Distribuidora líder en maíz de alta calidad, semillas seleccionadas, harinas y molinera de México.</p>
+                <p>📍 Ciudad de México, México</p>
+            </div>
+
+            <div class="footer-columna">
+                <h3>Enlaces Útiles</h3>
+                <ul class="footer-enlaces">
+                    <li><a href="index.html">Inicio / Principal</a></li>
+                    <li><a href="tienda.html">Catálogo de Productos</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Aviso de Privacidad</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h3>Soporte y Pagos</h3>
+                <p>Garantizamos transacciones 100% seguras enlazadas con tu cuenta registrada.</p>
+                <div class="metodos-pago">
+                    <span class="pago-tag">💳 Tarjeta</span>
+                    <span class="pago-tag">🏦 SPEI</span>
+                    <span class="pago-tag">💵 Efectivo</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-inferior">
+            &copy; 2026 Insumos Molineros de México S.A. de C.V. Todos los derechos reservados.
+        </div>
+    </footer>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('cliente_token');
+            if (token) {
+                document.getElementById('menu-privado-carrito').style.display = 'block';
+                document.getElementById('menu-privado-perfil').style.display = 'block';
+                
+                document.getElementById('btn-nav-login').style.display = 'none';
+                document.getElementById('btn-nav-registro').style.display = 'none'; 
+                
+                document.getElementById('nav-usuario-info').style.display = 'flex';
+                document.getElementById('nav-nombre-usuario').innerText = localStorage.getItem('usuario_nombre') || "Cliente";
+                
+                if (typeof actualizarContadorCarrito === 'function') {
+                    actualizarContadorCarrito();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

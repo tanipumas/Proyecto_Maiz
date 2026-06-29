@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Mi Perfil | Insumos Molineros de México</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+
+        if (!localStorage.getItem('cliente_token')) {
+
+            alert("Acceso denegado: Por favor inicia sesión.");
+
+            window.location.href = 'tienda.html';
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+
+
+    <nav class="navbar">
+
+        <div class="nav-logo">🌾 INSUMOS MOLINEROS DE MÉXICO</div>
+
+        <ul class="nav-links">
+
+            <li><a href="tienda.html">Inicio</a></li>
+
+            <li><a href="carrito.html">🛒 Carrito</a></li>
+
+            <li><a href="perfil.html" class="active">Mi Perfil</a></li>
+
+        </ul>
+
+        <button class="btn-salir" onclick="cerrarSesionCliente()">Salir</button>
+
+    </nav>
+
+
+
+    <main class="contenedor-principal">
+
+        <h2 style="color: var(--verde-oscuro);">Panel del Cliente</h2>
+
+       
+
+        <div class="grid-perfil">
+
+           <section>
+    <h3>📋 Historial de Compras</h3>
+    
+    <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <button onclick="filtrarPedidos('TODOS')" class="btn-agregar-carrito" style="width: auto;">Todos</button>
+        <button onclick="filtrarPedidos('PENDIENTE')" class="btn-agregar-carrito" style="width: auto; background: #ecc94b !important;">Pendientes</button>
+        <button onclick="filtrarPedidos('PROCESO')" class="btn-agregar-carrito" style="width: auto; background: #4299e1 !important;">En Proceso</button>
+        <button onclick="filtrarPedidos('ENTREGADO')" class="btn-agregar-carrito" style="width: auto; background: #48bb78 !important;">Entregados</button>
+    </div>
+
+    <div id="contenedor-historial"></div>
+</section>
+
+
+
+            <aside class="panel-seguridad">
+
+                <h3>🔒 Cambiar Contraseña</h3>
+
+                <form id="form-cambiar-pass" onsubmit="procesarCambioPassword(event)">
+
+                    <input type="password" id="pass-actual" placeholder="Contraseña actual" required>
+
+                    <input type="password" id="pass-nueva" placeholder="Nueva contraseña" required>
+
+                    <button type="submit" class="btn-agregar-carrito">Actualizar</button>
+
+                </form>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+
+    <script src="perfil.js"></script>
+
+</body>
+
+</html> 
+

@@ -1,0 +1,390 @@
+/* =========================================
+   FUENTES PREMIUM Y CONFIGURACIÓN GLOBAL
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --verde-institucional: #1b5e20; /* El verde oscuro de la plantilla */
+    --verde-hover: #2e7d32;
+    --amarillo-maiz: #ffb300;       /* El toque dorado para resaltar */
+    --gris-fondo: #f8f9fa;
+    --texto-blanco: #ffffff;
+}
+
+/* =========================================
+   BARRA DE NAVEGACIÓN PREMIUM (NAVBAR)
+   ========================================= */
+.navbar {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--verde-institucional);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px; /* Más alta y estilizada */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Contenedor del Logotipo */
+.nav-logo {
+    color: var(--texto-blanco);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Enlaces Centrales de Navegación */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 35px; /* Espaciado premium entre opciones */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 0;
+}
+
+/* Efecto de línea animada al pasar el mouse (estilo e-commerce real) */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--amarillo-maiz);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--texto-blanco);
+}
+
+.nav-links a:hover::after, 
+.nav-links a.active::after {
+    width: 100%; /* La línea se expande suavemente */
+}
+
+.nav-links a.active {
+    color: var(--amarillo-maiz);
+    font-weight: 600;
+}
+
+/* Área de Botones y Carrito (Derecha) */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Botones de Login / Registro de la barra */
+.nav-btn {
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    color: var(--texto-blanco);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: var(--texto-blanco);
+    color: var(--verde-institucional);
+    border-color: var(--texto-blanco);
+    transform: translateY(-1px);
+}
+
+/* Botón del Carrito Destacado */
+.nav-cart {
+    background-color: var(--amarillo-maiz);
+    color: #000000;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(255, 179, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.nav-cart:hover {
+    background-color: #f5a623;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 179, 0, 0.3);
+}
+/* =========================================
+   CONTENEDOR Y TARJETAS DE PRODUCTOS PREMIUM
+   ========================================= */
+.tarjeta-producto {
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid #e2e8f0 !important;
+    padding: 20px !important;
+    width: 240px !important; /* Un poco más anchas para que luzcan mejor */
+    background: #ffffff !important;
+    border-radius: 16px !important; /* Bordes más redondeados y modernos */
+    text-align: center !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Efecto de elevación al pasar el cursor */
+.tarjeta-producto:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    border-color: #2e7d32 !important; /* Destaca el borde con el verde de la marca */
+}
+
+/* Imagen del producto */
+.tarjeta-producto img {
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    transition: transform 0.5s ease !important;
+}
+
+.tarjeta-producto:hover img {
+    transform: scale(1.03) !important; /* Micro-zoom elegante en la foto */
+}
+
+/* Título del producto */
+.tarjeta-producto h3 {
+    margin: 15px 0 2px 0 !important;
+    font-size: 1.1rem !important;
+    color: #1a202c !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    line-height: 1.3 !important;
+}
+
+/* Contenedor de estrellas de calificación ficticias */
+.producto-estrellas {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #ffb300; /* Color amarillo maíz para las estrellas */
+}
+.producto-estrellas span {
+    color: #a0aec0; /* Gris para el número de reseñas */
+    font-size: 0.8rem;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+/* Precio del producto */
+.tarjeta-producto p {
+    margin: 0 0 15px 0 !important;
+    color: #1b5e20 !important; /* Verde institucional */
+    font-weight: 800 !important;
+    font-size: 1.3rem !important;
+    text-align: left !important;
+}
+
+.tarjeta-producto p span {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    color: #718096 !important;
+}
+
+/* Selector de Kilos Estilizado */
+.selector-kilos {
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #f7fafc !important;
+    padding: 8px 12px !important;
+    border-radius: 10px !important;
+    border: 1px solid #edf2f7;
+}
+
+.selector-kilos label {
+    font-size: 0.85rem !important;
+    color: #4a5568 !important;
+    font-weight: 600 !important;
+}
+
+.selector-kilos input {
+    width: 60px !important;
+    padding: 6px !important;
+    text-align: center !important;
+    border: 1px solid #cbd5e0 !important;
+    border-radius: 6px !important;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.selector-kilos input:focus {
+    outline: none;
+    border-color: #2e7d32;
+    background: #e8f5e9;
+}
+
+/* Botón de Agregar al Carrito */
+.btn-agregar-carrito {
+    width: 100% !important;
+    padding: 12px !important;
+    background-color: #1b5e20 !important; /* Verde oscuro */
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem !important;
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
+    box-shadow: 0 4px 6px rgba(27, 94, 32, 0.15) !important;
+}
+
+.btn-agregar-carrito:hover {
+    background-color: #2e7d32 !important; /* Verde un poco más claro al pasar el mouse */
+}
+
+.btn-agregar-carrito:active {
+    transform: scale(0.98) !important; /* Efecto de compresión física al dar clic */
+}
+/* =========================================
+   FONDO GENERAL DE LA TIENDA
+   ========================================= */
+body {
+    background-color: #f8fafc !important; /* Gris premium sutil que hace resaltar los elementos blancos */
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal donde se cargan los productos */
+.contenedor-principal {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px !important;
+}
+/* =========================================
+   FOOTER CORPORATIVO PREMIUM
+   ========================================= */
+.footer-corporativo {
+    font-family: 'Poppins', sans-serif;
+    background-color: #1b5e20; /* Verde oscuro institucional */
+    color: #ffffff;
+    padding: 50px 0 20px 0;
+    margin-top: 60px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.footer-contenedor {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.footer-columna {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-columna h3 {
+    color: #ffb300; /* Amarillo maíz para títulos */
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Línea decorativa debajo de los títulos del footer */
+.footer-columna h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 35px;
+    height: 2px;
+    background-color: #ffb300;
+}
+
+.footer-columna p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    margin: 0 0 15px 0 !important;
+}
+
+.footer-enlaces {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-enlaces li {
+    margin-bottom: 12px;
+}
+
+.footer-enlaces a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.footer-enlaces a:hover {
+    color: #ffb300;
+    padding-left: 6px; /* Desplazamiento suave al pasar el mouse */
+}
+
+/* Iconos de métodos de pago */
+.metodos-pago {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.pago-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Barra inferior de derechos reservados */
+.footer-inferior {
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    padding: 20px 20px 0 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}

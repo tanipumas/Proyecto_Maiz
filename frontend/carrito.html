@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Carrito - Insumos Molineros</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos generales para el modal de formas de pago */
+        .modal-pago-contenedor {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.6); 
+            align-items: center; 
+            justify-content: center;
+        }
+        .modal-pago-contenido {
+            background-color: white; 
+            padding: 30px; 
+            border-radius: 8px; 
+            width: 100%; 
+            max-width: 450px; 
+            position: relative; 
+            text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .opcion-pago-tarjeta {
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            margin-bottom: 12px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            transition: background 0.2s;
+        }
+        .opcion-pago-tarjeta:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: #2e7d32; color: white;">
+        <div class="nav-logo" style="font-weight: bold; font-size: 1.2rem;">🌾 INSUMOS MOLINEROS DE MÉXICO</div>
+        <div style="display: flex; align-items: center; gap: 25px;">
+            <ul class="nav-links" style="list-style: none; margin: 0; padding: 0; display: flex; gap: 20px;">
+                <li><a href="tienda.html" style="color: white; text-decoration: none; font-weight: bold;">Volver a la Tienda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="contenedor-principal" style="padding: 40px; max-width: 800px; margin: 0 auto;">
+        <h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 10px;">🛒 Tu Carrito de Compras</h2>
+        
+        <div id="contenido-carrito" style="margin-top: 20px;"></div>
+    </main>
+
+    <div id="modal-shapes-pago" class="modal-pago-contenedor">
+        <div class="modal-pago-contenido">
+            <button onclick="cerrarModalPago()" style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; border: none; background: none; color: #666;">&times;</button>
+            
+            <h3 style="color: #2c3e50; margin-top: 0; margin-bottom: 5px; font-size: 1.4rem;">Selecciona tu forma de pago</h3>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Tu transacción está protegida de forma cifrada.</p>
+
+            <div class="opcion-pago-tarjeta" onclick="confirmarMetodoPago('tarjeta')">
+                <div style="text-align: left;">
+                    <span style="font-weight: bold; display: block; color: #2c3e50;">Tarjeta de Crédito o Débito</span>
+                    <span style="font-size: 0.8rem; color: #888;">Visa, Mastercard, American Express</span>
+                </div>
+                <span style="font-size: 1.5rem;">💳</span>
+            </div>
+
+            <div class="opcion-pago-tarjeta" onclick="confirmarMetodoPago('spei')">
+                <div style="text-align: left;">
+                    <span style="font-weight: bold; display: block; color: #2c3e50;">Transferencia Interbancaria (SPEI)</span>
+                    <span style="font-size: 0.8rem; color: #888;">Pago inmediato desde la app de tu banco</span>
+                </div>
+                <span style="font-size: 1.5rem;">🏦</span>
+            </div>
+
+            <div class="opcion-pago-tarjeta" onclick="confirmarMetodoPago('oxxo')">
+                <div style="text-align: left;">
+                    <span style="font-weight: bold; display: block; color: #2c3e50;">Efectivo contra Entrega</span>
+                    <span style="font-size: 0.8rem; color: #888;">Se realiza un recibo al realizar el pago</span>
+                </div>
+                <span style="font-size: 1.5rem;">💵</span>
+            </div>
+
+            <button onclick="cerrarModalPago()" style="width: 100%; padding: 10px; background-color: #757575; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Dibujar el contenido del carrito al cargar el DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            const contenedor = document.getElementById('contenido-carrito');
+            const carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+
+            // Si el carrito no tiene nada guardado
+            if (carrito.length === 0) {
+                contenedor.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p style="font-size: 1.2rem;">Tu carrito está vacío actualmente. 🌽</p>
+                        <a href="tienda.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #2e7d32; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">Ir a buscar insumos</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Si contiene productos, construimos la tabla de desglose
+            let totalGeneral = 0;
+            
+            let tablaHTML = `
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                    <thead style="background-color: #f5f5f5; border-bottom: 2px solid #ddd;">
+                        <tr>
+                            <th style="padding: 12px; text-align: left;">Insumo</th>
+                            <th style="padding: 12px; text-align: center;">Precio x Kg</th>
+                            <th style="padding: 12px; text-align: center;">Kilos Pedidos</th>
+                            <th style="padding: 12px; text-align: right;">Subtotal</th>
+                            <th style="padding: 12px; text-align: center;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            carrito.forEach((item, indice) => {
+                const subtotal = item.precio * item.kilos;
+                totalGeneral += subtotal;
+
+                tablaHTML += `
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 12px; font-weight: bold; color: #2c3e50;">${item.nombre}</td>
+                        <td style="padding: 12px; text-align: center;">$${item.precio}</td>
+                        <td style="padding: 12px; text-align: center;">${item.kilos} Kg</td>
+                        <td style="padding: 12px; text-align: right; font-weight: bold; color: #2e7d32;">$${subtotal.toFixed(2)}</td>
+                        <td style="padding: 12px; text-align: center;">
+                            <button onclick="eliminarDelCarrito(${indice})" style="background: none; border: none; color: #c62828; cursor: pointer; font-size: 1.1rem;" title="Eliminar">❌</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Agregamos el cierre de la tabla y la tarjeta de totales final
+            tablaHTML += `
+                    </tbody>
+                </table>
+                
+                <div style="text-align: right; margin-top: 20px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 15px 0; color: #2c3e50; font-size: 1.4rem;">Total a Pagar: <span style="color: #2e7d32;">$${totalGeneral.toFixed(2)}</span></h3>
+                    <button onclick="procesarCompra()" style="padding: 12px 30px; background-color: #2e7d32; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; max-width: 250px;">
+                        Proceder al Pago 💳
+                    </button>
+                </div>
+            `;
+
+            contenedor.innerHTML = tablaHTML;
+        });
+
+        // Función para eliminar un artículo individual
+        function eliminarDelCarrito(indice) {
+            let carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+            carrito.splice(indice, 1); 
+            localStorage.setItem('carrito_items', JSON.stringify(carrito));
+            window.location.reload(); 
+        }
+
+        // Abrir el modal de formas de pago al dar clic en proceder al pago
+        function procesarCompra() {
+            const token = localStorage.getItem('cliente_token');
+            if (!token) {
+                alert("⚠️ Debes iniciar sesión para proceder al pago.");
+                window.location.href = "tienda.html"; 
+                return;
+            }
+
+            const modalPago = document.getElementById('modal-shapes-pago');
+            if (modalPago) {
+                modalPago.style.display = 'flex';
+            }
+        }
+
+        // Cerrar modal de pagos
+        function cerrarModalPago() {
+            const modalPago = document.getElementById('modal-shapes-pago');
+            if (modalPago) {
+                modalPago.style.display = 'none';
+            }
+        }
+
+        // Enviar la información del método y el carrito hacia el backend de Django
+        async function confirmarMetodoPago(metodo) {
+            const carrito = JSON.parse(localStorage.getItem('carrito_items')) || [];
+            const token = localStorage.getItem('cliente_token');
+
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+
+            const itemsParaDjango = carrito.map(item => ({
+    producto_id: item.id,            // Aseguramos que sea producto_id
+    cantidad_kilos: item.kilos      // Aseguramos que sea cantidad_kilos
+}));
+
+const datosOrden = {
+    metodo_pago: metodo,
+    items: itemsParaDjango           // Enviamos el array transformado
+};
+
+            try {
+                // Endpoint en Django encargado de procesar la orden
+                const res = await fetch('http://127.0.0.1:8000/api/procesar-pago/', { // ✅ Esta es la que definiste en views.py
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${token}`
+                    },
+                    body: JSON.stringify(datosOrden)
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert(`¡Pedido registrado con éxito! Método: ${metodo.toUpperCase()}. \nPronto recibirás las instrucciones de tu compra.`);
+                    
+                    if (data.url_pago) {
+                        window.location.href = data.url_pago; // Redirección opcional a pasarela externa
+                    } else {
+                        localStorage.removeItem('carrito_items');
+                        window.location.href = 'tienda.html';
+                    }
+                } else {
+                    alert("Error al procesar el pedido: " + (data.error || "Inténtalo más tarde."));
+                }
+            } catch (error) {
+                console.error("Error en el pago:", error);
+                alert("Hubo un problema al conectar con el servidor para procesar tu pago.");
+            }
+        }
+    </script>
+</body>
+</html>
