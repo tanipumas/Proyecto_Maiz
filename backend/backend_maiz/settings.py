@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kevlm$y+3*h4rim!p_%h5svpmizyzaj@q^ikkoy1o$$q@q^ve@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['proyecto-maiz.onrender.com', 'localhost', '127.0.0.1']
 
