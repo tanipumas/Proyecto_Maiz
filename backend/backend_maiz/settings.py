@@ -45,15 +45,14 @@ ROOT_URLCONF = 'backend_maiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Ajustamos para que busque en la raíz, donde está tu carpeta templates
-        'DIRS': [BASE_DIR / 'templates'], 
+        'DIRS': [], # Si moviste los templates a backend/productos/templates, deja esto vacío
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request', # Necesario para el sidebar del admin
+                'django.contrib.auth.context_processors.auth',  # Necesario para el admin
+                'django.contrib.messages.context_processors.messages', # Necesario para el admin
             ],
         },
     },
@@ -83,7 +82,7 @@ USE_TZ = True
 # Static files
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = []
 
 # Media files
 MEDIA_URL = '/media/'
