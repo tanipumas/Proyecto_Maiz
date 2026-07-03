@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from productos import views
 
 # 🖼️ IMPORTACIONES REQUERIDAS PARA LAS IMÁGENES
@@ -10,6 +10,7 @@ urlpatterns = [
     # Panel de administración
     path('admin/', admin.site.urls),
     path('procesar-pago/', views.procesar_pago, name='procesar_pago'),
+    path('', include('productos.urls')),
     # 🎯 RUTAS DIRECTAS DE LA API (Fuerzan a Django a reconocerlas sí o sí)
     path('api/productos/', views.ProductoViewSet.as_view({'get': 'list'}), name='productos-lista'),
     path('api/categorias/', views.CategoriaViewSet.as_view({'get': 'list'}), name='categorias-lista'),
