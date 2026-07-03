@@ -12,6 +12,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['proyecto-maiz.onrender.com', 'localhost', '127.0.0.1']
 
+ROOT_URLCONF = 'backend.backend_maiz.urls'
+WSGI_APPLICATION = 'backend.backend_maiz.wsgi.application'
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,10 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'backend.productos',
     'corsheaders',
+    'backend.productos', # <--- LA RUTA CORREGIDA
 ]
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
