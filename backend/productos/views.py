@@ -204,3 +204,8 @@ def cambiar_password(request):
     user.set_password(new_password)
     user.save()
     return Response({"mensaje": "Contraseña actualizada correctamente."}, status=status.HTTP_200_OK)
+from django.shortcuts import render
+
+# Esta función servirá tu archivo dashboard.html
+def render_dashboard(request):
+    return render(request, 'dashboard.html')
