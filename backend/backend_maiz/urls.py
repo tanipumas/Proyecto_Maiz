@@ -24,6 +24,8 @@ urlpatterns = [
     path('api/pago/', views.procesar_pago, name='procesar_pago'),
     path('api/historial/', views.historial_pedidos, name='historial_pedidos'),
     path('api/cambiar-password/', views.cambiar_password, name='cambiar_password'),
+    path('tienda/', views.render_tienda, name='tienda'),
+    path('perfil/', views.render_perfil, name='perfil'),
 ]
 
 # Servir archivos multimedia en desarrollo
