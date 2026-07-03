@@ -26,6 +26,10 @@ urlpatterns = [
     path('api/cambiar-password/', views.cambiar_password, name='cambiar_password'),
     path('tienda/', views.render_tienda, name='tienda'),
     path('perfil/', views.render_perfil, name='perfil'),
+    path('dashboard.html', views.render_dashboard),
+    path('tienda.html', views.render_tienda),
+    path('perfil.html', views.render_perfil),
+    path('carrito.html', lambda request: render(request, 'carrito.html')),
 ]
 
 # Servir archivos multimedia en desarrollo
