@@ -40,20 +40,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend_maiz.urls'
+ROOT_URLCONF = 'backend.backend_maiz.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [], # Si moviste los templates a backend/productos/templates, deja esto vacío
         'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'],
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request', # Necesario para el sidebar del admin
                 'django.contrib.auth.context_processors.auth',  # Necesario para el admin
                 'django.contrib.messages.context_processors.messages', # Necesario para el admin
-            ],
+                            ],
         },
     },
 ]

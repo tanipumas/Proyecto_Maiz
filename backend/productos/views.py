@@ -212,7 +212,7 @@ def render_dashboard(request):
     return render(request, 'dashboard.html')
 
 def render_tienda(request):
-    return render(request, 'tienda')
+    return render(request, 'tienda.html')
 
 def render_perfil(request):
     return render(request, 'perfil.html')
