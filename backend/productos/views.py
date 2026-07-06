@@ -63,8 +63,20 @@ def login_cliente(request):
         return Response({"token": token.key, "mensaje": "Ingreso correcto"}, status=status.HTTP_200_OK)
     return Response({"error": "Credenciales inválidas."}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def cambiar_password(request):
+    old_password = request.data.get("old_password")
+    new_password = request.data.get("new_password")
+    user = request.user
+    if not user.check_password(old_password):
+        return Response({"error": "Contraseña actual incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+    user.set_password(new_password)
+    user.save()
+    return Response({"mensaje": "Contraseña actualizada."}, status=status.HTTP_200_OK)
+
 # ==========================================
-# 💳 PROCESAR COMPRA
+# 💳 PROCESAR COMPRA E HISTORIAL
 # ==========================================
 
 @csrf_exempt
@@ -105,6 +117,20 @@ def procesar_pago(request):
         return Response({"pedido_id": nuevo_pedido.id, "total": total_pedido}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def historial_pedidos(request):
+    pedidos = Pedido.objects.filter(cliente=request.user).order_by('-fecha_creacion')
+    lista_resultado = []
+    for p in pedidos:
+        lista_resultado.append({
+            "id": p.id,
+            "fecha": p.fecha_creacion.strftime('%d/%m/%Y %H:%M'),
+            "total": float(p.total),
+            "estatus": p.get_estatus_display()
+        })
+    return Response(lista_resultado, status=status.HTTP_200_OK)
 
 # ==========================================
 # 🌐 RENDERIZADO DE PÁGINAS (HTML)
