@@ -12,7 +12,14 @@ from .serializers import ProductoSerializer
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def render_dashboard(request):
-    return render(request, 'index.html')
+    # Apunta a dashboard.html tal como lo tienes
+    return render(request, 'dashboard.html')
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def render_tienda(request):
+    # Apunta a tienda.html tal como lo tienes
+    return render(request, 'tienda.html')
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -25,7 +32,6 @@ def registro_cliente(request):
 def historial_pedidos(request):
     return Response([])
 
-# Alias para evitar el error de AttributeError
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def obtener_historial(request):

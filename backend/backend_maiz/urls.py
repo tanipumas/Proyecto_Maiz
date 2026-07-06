@@ -5,6 +5,7 @@ from backend.productos import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.render_dashboard, name='dashboard'),
+    path('tienda/', views.render_tienda, name='tienda'),
     path('api/login/', views.login_cliente, name='login_cliente'),
     path('api/registro/', views.registro_cliente, name='registro_cliente'),
     path('api/productos/', views.listar_productos, name='listar_productos'),

@@ -2,18 +2,12 @@ import os
 from pathlib import Path
 
 # Build paths inside the project
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent # Ajustado para subir al nivel correcto
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-kevlm$y+3*h4rim!p_%h5svpmizyzaj@q^ikkoy1o$$q@q^ve@'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['proyecto-maiz.onrender.com', 'localhost', '127.0.0.1']
-
-ROOT_URLCONF = 'backend.backend_maiz.urls'
-WSGI_APPLICATION = 'backend.backend_maiz.wsgi.application'
 
 # Application definition
 INSTALLED_APPS = [
@@ -26,8 +20,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'backend.productos', # <--- LA RUTA CORREGIDA
+    'backend.productos', 
 ]
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -45,21 +40,20 @@ ROOT_URLCONF = 'backend.backend_maiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], # Si moviste los templates a backend/productos/templates, deja esto vacío
+        'DIRS': [BASE_DIR / 'templates'], # Ruta unificada y única
         'APP_DIRS': True,
-        'DIRS': [BASE_DIR / 'templates'],
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request', # Necesario para el sidebar del admin
-                'django.contrib.auth.context_processors.auth',  # Necesario para el admin
-                'django.contrib.messages.context_processors.messages', # Necesario para el admin
-                            ],
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'backend_maiz.wsgi.application'
+WSGI_APPLICATION = 'backend.backend_maiz.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -101,7 +95,6 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True 
 
-# IMPORTANTE: Estos son los orígenes que Django permite para formularios POST/PUT/DELETE
 CSRF_TRUSTED_ORIGINS = [
     "https://proyecto-maiz.onrender.com",
     "http://127.0.0.1:5500",
