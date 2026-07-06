@@ -9,55 +9,49 @@ from rest_framework.authtoken.models import Token
 from .models import Producto, Pedido, DetallePedido
 from .serializers import ProductoSerializer
 
-# --- VISTAS DE NAVEGACIÓN ---
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def render_dashboard(request):
-    return render(request, 'index.html') # Asegúrate que el archivo se llame así o dashboard.html
-
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def render_tienda(request):
-    return render(request, 'tienda.html')
-
-# --- AUTENTICACIÓN Y USUARIOS ---
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def login_cliente(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-    user = authenticate(username=username, password=password)
-    if user:
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'nombre': user.first_name})
-    return Response({'error': 'Credenciales inválidas'}, status=400)
+    return render(request, 'index.html')
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def registro_cliente(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-    if User.objects.filter(username=username).exists():
-        return Response({'error': 'El usuario ya existe'}, status=400)
-    user = User.objects.create_user(username=username, password=password)
-    return Response({'message': 'Usuario creado exitosamente'})
+    user = User.objects.create_user(username=request.data.get('username'), password=request.data.get('password'))
+    return Response({'message': 'Usuario creado'})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def historial_pedidos(request):
+    return Response([])
+
+# Alias para evitar el error de AttributeError
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def obtener_historial(request):
+    return historial_pedidos(request)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login_cliente(request):
+    user = authenticate(username=request.data.get('username'), password=request.data.get('password'))
+    if user:
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key, 'nombre': user.first_name})
+    return Response({'error': 'Credenciales incorrectas'}, status=400)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def cambiar_password(request):
     user = request.user
-    if not user.check_password(request.data.get('old_password')):
-        return Response({'error': 'Contraseña incorrecta'}, status=400)
     user.set_password(request.data.get('new_password'))
     user.save()
     update_session_auth_hash(request, user)
-    return Response({'message': 'Contraseña actualizada'})
+    return Response({'message': 'Éxito'})
 
-# --- PRODUCTOS Y PEDIDOS ---
 @api_view(['GET'])
 def listar_productos(request):
-    productos = Producto.objects.all()
-    serializer = ProductoSerializer(productos, many=True)
+    serializer = ProductoSerializer(Producto.objects.all(), many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -74,8 +68,3 @@ def procesar_pago(request):
         return Response({'pedido_id': pedido.id})
     except Exception as e:
         return Response({'error': str(e)}, status=400)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def obtener_historial(request):
-    return Response([])
