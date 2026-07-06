@@ -150,14 +150,16 @@
             </div>
 
             <div class="footer-columna">
-                <h3>Enlaces Útiles</h3>
-                <ul class="footer-enlaces">
-                    <li><a href="dashboard.html">Inicio / Principal</a></li>
-                    <li><a href="/tienda/">Catálogo de Productos</a></li>
-                    <li><a href="#">Términos y Condiciones</a></li>
-                    <li><a href="#">Aviso de Privacidad</a></li>
-                </ul>
-            </div>
+    <h3>Enlaces Útiles</h3>
+    <ul class="footer-enlaces">
+        <li><a href="{% url 'inicio' %}">Inicio / Principal</a></li>
+        
+        <li><a href="{% url 'tienda' %}">Catálogo de Productos</a></li>
+        
+        <li><a href="#">Términos y Condiciones</a></li>
+        <li><a href="#">Aviso de Privacidad</a></li>
+    </ul>
+</div>
 
             <div class="footer-columna">
                 <h3>Soporte y Pagos</h3>

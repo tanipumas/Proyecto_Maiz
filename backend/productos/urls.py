@@ -10,14 +10,15 @@ router.register(r'productos', ProductoViewSet)
 router.register(r'categorias', CategoriaViewSet)
 
 urlpatterns = [
-    # Rutas para la API
+    # API
     path('api/', include(router.urls)),
     path('api/registro/', registro_cliente, name='registro_cliente'),
     path('api/login/', login_cliente, name='login_cliente'),
     path('api/pago/', procesar_pago, name='procesar_pago'),
 
-    # 🌐 Rutas para las páginas HTML (lo que necesitas)
-    path('dashboard.html', render_dashboard, name='dashboard'),
+    # Rutas para páginas HTML (sin el .html para evitar errores)
+    path('dashboard/', render_dashboard, name='dashboard'),
     path('tienda/', render_tienda, name='tienda'),
-    path('perfil.html', render_perfil, name='perfil'),
+    path('perfil/', render_perfil, name='perfil'),
+    path('', render_tienda, name='inicio'), # Raíz
 ]

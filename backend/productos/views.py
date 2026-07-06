@@ -216,3 +216,8 @@ def render_tienda(request):
 
 def render_perfil(request):
     return render(request, 'perfil.html')
+
+from django.shortcuts import render
+
+def dashboard_view(request):
+    return render(request, 'dashboard.html')
