@@ -5,13 +5,13 @@ from backend.productos import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Rutas corregidas para que coincidan con tu HTML
-    path('', views.render_dashboard, name='dashboard'), # 'dashboard' coincide con {% url 'dashboard' %}
-    path('inicio/', views.render_dashboard, name='inicio'), # 'inicio' agregado para tu navbar
-    path('tienda/', views.render_tienda, name='tienda'), # 'tienda' coincide con {% url 'tienda' %}
+    # Nombres que tus plantillas HTML buscan:
+    path('', views.render_dashboard, name='dashboard'),      # Usado por {% url 'dashboard' %}
+    path('inicio/', views.render_dashboard, name='inicio'),  # Usado por {% url 'inicio' %}
+    path('tienda/', views.render_tienda, name='tienda'),     # Usado por {% url 'tienda' %}
     
-    # Si vas a usar un perfil, debes tener esta vista o crearla
-    # path('perfil/', views.render_perfil, name='perfil'), 
+    # Si aún no tienes la vista de perfil, la crearemos abajo
+    path('perfil/', views.render_dashboard, name='perfil'),  # Placeholder para evitar el error
     
     # API endpoints
     path('api/login/', views.login_cliente, name='login_cliente'),
