@@ -178,12 +178,17 @@
 <body>
 
     <nav class="navbar">
-        <div class="nav-logo">🌽 Insumos Molineros de México</div>
-        <ul class="nav-links">
-            <li><a href="{% url 'dashboard' %}">Inicio</a></li>
-            <li><a href="/tienda/">Tienda / Catálogo</a></li>
-        </ul>
-    </nav>
+    <div class="nav-logo">🌽 Insumos Molineros de México</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}">Inicio</a></li>
+        <li><a href="{% url 'tienda' %}">Tienda / Catálogo</a></li>
+    </ul>
+</nav>
+
+<a href="{% url 'tienda' %}" class="btn-oferta" style="text-decoration: none; display: inline-block;">
+    Aprovechar Oferta Ahora 🌽
+</a>
+    <a href="{% url 'tienda' %}" class="btn-oferta">Aprovechar Oferta Ahora 🌽</a>
 
     <div class="contenedor-principal" style="max-width: 1200px; margin: 0 auto; padding: 20px 20px 40px 20px;">
         
