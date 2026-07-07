@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.render_dashboard, name='dashboard'),      # Usado por {% url 'dashboard' %}
     path('inicio/', views.render_dashboard, name='inicio'),  # Usado por {% url 'inicio' %}
     path('tienda/', views.render_tienda, name='tienda'),     # Usado por {% url 'tienda' %}
+    path('dashboard/', views.render_dashboard, name='dashboard_url'),
     
     # Si aún no tienes la vista de perfil, la crearemos abajo
     path('perfil/', views.render_dashboard, name='perfil'),  # Placeholder para evitar el error
