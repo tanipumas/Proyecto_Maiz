@@ -1,20 +1,40 @@
-const API_URL = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:8000' : 'https://proyecto-maiz.onrender.com';
+// Usamos var o verificamos si ya existe para evitar el error de declaración
+if (typeof API_URL === 'undefined') {
+    var API_URL = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:8000' : 'https://proyecto-maiz.onrender.com';
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Cargar productos si estamos en la tienda
-    if (document.getElementById('contenedor-productos')) {
-        cargarProductos();
-    }
+    // Funciones globales para que el HTML pueda encontrarlas
+    window.abrirModalAutenticacion = function() {
+        const m = document.getElementById('modal-auth');
+        if (m) m.style.display = 'flex';
+    };
 
-    // 2. Manejo de Login (Solo si el formulario existe en la página)
-    const loginForm = document.getElementById('form-login-modal');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('modal-username').value;
-            const password = document.getElementById('modal-password').value;
-            
-            try {
+    window.cerrarModalAutenticacion = function() {
+        const m = document.getElementById('modal-auth');
+        if (m) m.style.display = 'none';
+    };
+
+    window.abrirModalRegistro = function() {
+        const m = document.getElementById('modal-registro');
+        if (m) m.style.display = 'flex';
+    };
+
+    window.cerrarModalRegistro = function() {
+        const m = document.getElementById('modal-registro');
+        if (m) m.style.display = 'none';
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Cargar productos
+        if (document.getElementById('contenedor-productos')) cargarProductos();
+
+        // Manejo de Login
+        const loginForm = document.getElementById('form-login-modal');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('modal-username').value;
+                const password = document.getElementById('modal-password').value;
+                
                 const res = await fetch(`${API_URL}/api/login/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -24,39 +44,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (res.ok) {
                     localStorage.setItem('cliente_token', data.token);
                     window.location.reload();
-                } else { alert("Error: " + (data.error || "Login fallido")); }
-            } catch (err) { alert("Error de conexión"); }
-        });
-    }
-});
+                } else { alert(data.error || "Error de login"); }
+            });
+        }
+    });
 
-async function cargarProductos() {
-    const contenedor = document.getElementById('contenedor-productos');
-    try {
-        const res = await fetch(`${API_URL}/api/productos/`);
-        const productos = await res.json();
-        
-        // Agrupar por categoría
-        const porCategoria = productos.reduce((acc, p) => {
-            const cat = p.categoria_nombre || "General";
-            if (!acc[cat]) acc[cat] = [];
-            acc[cat].push(p);
-            return acc;
-        }, {});
+    async function cargarProductos() {
+        const contenedor = document.getElementById('contenedor-productos');
+        try {
+            const res = await fetch(`${API_URL}/api/productos/`);
+            const productos = await res.json();
+            
+            const porCategoria = productos.reduce((acc, p) => {
+                const cat = p.categoria_nombre || "General";
+                if (!acc[cat]) acc[cat] = [];
+                acc[cat].push(p);
+                return acc;
+            }, {});
 
-        contenedor.innerHTML = Object.keys(porCategoria).map(cat => `
-            <div class="categoria">
-                <h2>${cat}</h2>
-                <div class="productos-grid">
-                    ${porCategoria[cat].map(p => `
-                        <div class="tarjeta-producto">
-                            <h3>${p.nombre}</h3>
-                            <p>$${p.precio}/Kg</p>
-                            <button onclick="alert('Producto: ${p.nombre}')">Agregar</button>
-                        </div>
-                    `).join('')}
+            contenedor.innerHTML = Object.keys(porCategoria).map(cat => `
+                <div class="categoria">
+                    <h2>${cat}</h2>
+                    <div class="productos-grid">
+                        ${porCategoria[cat].map(p => `
+                            <div class="tarjeta-producto">
+                                <h3>${p.nombre}</h3>
+                                <p>$${p.precio}/Kg</p>
+                                <button onclick="alert('Producto: ${p.nombre}')">Agregar</button>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-            </div>
-        `).join('');
-    } catch (e) { contenedor.innerHTML = "Error cargando productos."; }
+            `).join('');
+        } catch (e) { console.error(e); }
+    }
 }
