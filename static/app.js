@@ -28,25 +28,47 @@ if (typeof API_URL === 'undefined') {
         if (document.getElementById('contenedor-productos')) cargarProductos();
 
         // Manejo de Login
-        const loginForm = document.getElementById('form-login-modal');
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('modal-username').value;
-                const password = document.getElementById('modal-password').value;
-                
-                const res = await fetch(`${API_URL}/api/login/`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    localStorage.setItem('cliente_token', data.token);
-                    window.location.reload();
-                } else { alert(data.error || "Error de login"); }
+        // Manejo de Login
+const loginForm = document.getElementById('form-login-modal');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = loginForm.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
+        
+        // Feedback visual de carga
+        btn.textContent = "Cargando...";
+        btn.disabled = true;
+
+        const username = document.getElementById('modal-username').value;
+        const password = document.getElementById('modal-password').value;
+        
+        try {
+            const res = await fetch(`${API_URL}/api/login/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
             });
+            
+            const data = await res.json();
+            
+            if (res.ok) {
+                localStorage.setItem('cliente_token', data.token);
+                window.location.reload(); // Recarga y el usuario ya estará logueado
+            } else {
+                alert(data.error || "Error al iniciar sesión");
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("No se pudo conectar con el servidor.");
+            btn.textContent = originalText;
+            btn.disabled = false;
         }
+    });
+}
     });
 
     async function cargarProductos() {

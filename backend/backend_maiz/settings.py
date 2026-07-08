@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project
-BASE_DIR = Path(__file__).resolve().parent.parent.parent # Ajustado para subir al nivel correcto
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = 'django-insecure-kevlm$y+3*h4rim!p_%h5svpmizyzaj@q^ikkoy1o$$q@q^ve@'
 DEBUG = True
@@ -40,7 +40,7 @@ ROOT_URLCONF = 'backend.backend_maiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Ruta unificada y única
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
