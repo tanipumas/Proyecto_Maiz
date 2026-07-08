@@ -91,7 +91,7 @@ if (loginForm) {
                         ${porCategoria[cat].map(p => `
                             <div class="tarjeta-producto">
                                 <h3>${p.nombre}</h3>
-                                <p>$${p.precio}/Kg</p>
+                                <p>$${p.precio_por_kilo}/Kg</p>
                                 <button onclick="alert('Producto: ${p.nombre}')">Agregar</button>
                             </div>
                         `).join('')}
