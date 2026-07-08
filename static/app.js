@@ -4,13 +4,17 @@ if (typeof API_URL === 'undefined') {
 
     // Funciones globales para que el HTML pueda encontrarlas
     window.abrirModalAutenticacion = function() {
-    const m = document.getElementById('modal-auth');
-    if (m) m.classList.add('active'); // Usamos clase en lugar de style.display
+    const modal = document.getElementById('modal-auth');
+    if (modal) {
+        modal.classList.add('active'); // Esto añade la clase
+    }
 };
 
 window.cerrarModalAutenticacion = function() {
-    const m = document.getElementById('modal-auth');
-    if (m) m.classList.remove('active');
+    const modal = document.getElementById('modal-auth');
+    if (modal) {
+        modal.classList.remove('active'); // Esto la quita
+    }
 };
 
     window.abrirModalRegistro = function() {
