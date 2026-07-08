@@ -7,18 +7,15 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .models import Producto, Pedido, DetallePedido
-from .serializers import ProductoSerializer
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def render_dashboard(request):
-    # Apunta a dashboard.html tal como lo tienes
     return render(request, 'dashboard.html')
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def render_tienda(request):
-    # Apunta a tienda.html tal como lo tienes
     return render(request, 'tienda.html')
 
 @api_view(['POST'])
@@ -56,9 +53,21 @@ def cambiar_password(request):
     return Response({'message': 'Éxito'})
 
 @api_view(['GET'])
-def listar_productos(request):
-    serializer = ProductoSerializer(Producto.objects.all(), many=True)
-    return Response(serializer.data)
+@permission_classes([AllowAny])
+def listar_productos_agrupados(request):
+    productos = Producto.objects.select_related('categoria').all()
+    agrupados = {}
+    for p in productos:
+        nombre_cat = p.categoria.nombre if p.categoria else "Sin categoría"
+        if nombre_cat not in agrupados:
+            agrupados[nombre_cat] = []
+        agrupados[nombre_cat].append({
+            'id': p.id,
+            'nombre': p.nombre,
+            'precio_por_kilo': str(p.precio_por_kilo),
+            'imagen': p.imagen.url if p.imagen else ''
+        })
+    return Response(agrupados)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

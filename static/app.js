@@ -77,32 +77,36 @@ if (loginForm) {
     });
 
     async function cargarProductos() {
-        const contenedor = document.getElementById('contenedor-productos');
-        try {
-            const res = await fetch(`${API_URL}/api/productos/`);
-            const productos = await res.json();
-            
-            const porCategoria = productos.reduce((acc, p) => {
-                const cat = p.categoria_nombre || "General";
-                if (!acc[cat]) acc[cat] = [];
-                acc[cat].push(p);
-                return acc;
-            }, {});
+    try {
+        const res = await fetch('/api/productos-agrupados/');
+        const data = await res.json();
+        const contenedor = document.getElementById('contenedor-tienda');
+        
+        if (!contenedor) return;
+        contenedor.innerHTML = '';
 
-            contenedor.innerHTML = Object.keys(porCategoria).map(cat => `
-                <div class="categoria">
-                    <h2>${cat}</h2>
-                    <div class="productos-grid">
-                        ${porCategoria[cat].map(p => `
-                            <div class="tarjeta-producto">
-                                <h3>${p.nombre}</h3>
-                                <p>$${p.precio_por_kilo}/Kg</p>
-                                <button onclick="alert('Producto: ${p.nombre}')">Agregar</button>
-                            </div>
-                        `).join('')}
+        Object.keys(data).forEach(categoria => {
+            const titulo = document.createElement('h2');
+            titulo.textContent = categoria;
+            contenedor.appendChild(titulo);
+
+            const grid = document.createElement('div');
+            grid.className = 'productos-grid';
+            
+            data[categoria].forEach(p => {
+                grid.innerHTML += `
+                    <div class="tarjeta-producto">
+                        <img src="${p.imagen}" alt="${p.nombre}" style="width:100px;">
+                        <h3>${p.nombre}</h3>
+                        <p>$${p.precio_por_kilo}/Kg</p>
+                        <button onclick="agregarAlCarrito(${p.id})">Agregar</button>
                     </div>
-                </div>
-            `).join('');
-        } catch (e) { console.error(e); }
+                `;
+            });
+            contenedor.appendChild(grid);
+        });
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
     }
+}
 }
