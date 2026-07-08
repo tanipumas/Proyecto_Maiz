@@ -3,10 +3,15 @@ if (typeof API_URL === 'undefined') {
     var API_URL = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:8000' : 'https://proyecto-maiz.onrender.com';
 
     // Funciones globales para que el HTML pueda encontrarlas
+
     window.abrirModalAutenticacion = function() {
+    console.log("Intentando abrir modal...");
     const modal = document.getElementById('modal-auth');
     if (modal) {
-        modal.classList.add('active'); // Esto añade la clase
+        modal.classList.add('active');
+        console.log("Clase 'active' agregada.");
+    } else {
+        console.error("No se encontró el elemento modal-auth");
     }
 };
 
