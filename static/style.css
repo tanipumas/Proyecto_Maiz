@@ -388,3 +388,22 @@ body {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.5);
 }
+/* Forzar visibilidad del modal */
+#modal-auth {
+    display: none !important; /* Por defecto oculto */
+    z-index: 9999 !important;
+}
+
+#modal-auth.active {
+    display: flex !important;
+}
+
+.modal-contenido {
+    background-color: white !important;
+    padding: 30px !important;
+    border-radius: 12px !important;
+    width: 320px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
+    display: block !important;
+    position: relative !important;
+}
