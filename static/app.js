@@ -5,20 +5,16 @@ if (typeof API_URL === 'undefined') {
     // Funciones globales para que el HTML pueda encontrarlas
 
     window.abrirModalAutenticacion = function() {
-    console.log("Intentando abrir modal...");
     const modal = document.getElementById('modal-auth');
     if (modal) {
-        modal.classList.add('active');
-        console.log("Clase 'active' agregada.");
-    } else {
-        console.error("No se encontró el elemento modal-auth");
+        modal.classList.add('active'); // Esto es suficiente
     }
 };
 
 window.cerrarModalAutenticacion = function() {
     const modal = document.getElementById('modal-auth');
     if (modal) {
-        modal.classList.remove('active'); // Esto la quita
+        modal.classList.remove('active'); // Esto es suficiente
     }
 };
 
