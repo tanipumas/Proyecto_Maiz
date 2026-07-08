@@ -4,14 +4,14 @@ if (typeof API_URL === 'undefined') {
 
     // Funciones globales para que el HTML pueda encontrarlas
     window.abrirModalAutenticacion = function() {
-        const m = document.getElementById('modal-auth');
-        if (m) m.style.display = 'flex';
-    };
+    const m = document.getElementById('modal-auth');
+    if (m) m.classList.add('active'); // Usamos clase en lugar de style.display
+};
 
-    window.cerrarModalAutenticacion = function() {
-        const m = document.getElementById('modal-auth');
-        if (m) m.style.display = 'none';
-    };
+window.cerrarModalAutenticacion = function() {
+    const m = document.getElementById('modal-auth');
+    if (m) m.classList.remove('active');
+};
 
     window.abrirModalRegistro = function() {
         const m = document.getElementById('modal-registro');
