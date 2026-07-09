@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'productos',
+    'cloudinary_storage',
+    'cloudinary',
   ]
 
 MIDDLEWARE = [
@@ -106,3 +108,12 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
 ]
+# Configuración de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hojx2qw5',
+    'API_KEY': '181798435912144',
+    'API_SECRET': '<TU_API_SECRET_AQUÍ>',
+}
+
+# Esto le dice a Django que use Cloudinary para los archivos de media
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

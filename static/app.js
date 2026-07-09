@@ -1,4 +1,4 @@
-const API_URL = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:8000' : 'https://proyecto-maiz.onrender.com';
+const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado.");
@@ -63,4 +63,14 @@ prodDiv.innerHTML = `
         console.error("Error capturado:", error);
         contenedor.innerHTML = '<p>Error al cargar la tienda.</p>';
     }
+}
+function agregarAlCarrito(productoId) {
+    console.log("Agregando al carrito el producto ID:", productoId);
+    
+    // Aquí irá tu lógica para guardar el producto en localStorage
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito.push(productoId);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    
+    alert("Producto agregado al carrito");
 }
