@@ -1,5 +1,3 @@
-const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
-
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado.");
     if (document.getElementById('contenedor-tienda')) {
@@ -9,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
-    let data = null; // Definimos data aquí para que sea global a esta función
+    let data = null;
 
     try {
         console.log("Fetching a:", `${API_URL}/api/productos-agrupados/`);
@@ -17,7 +15,7 @@ async function cargarProductos() {
         
         if (!res.ok) throw new Error(`Error ${res.status}`);
 
-        data = await res.json(); // Ahora sí, asignamos el valor aquí
+        data = await res.json();
         console.log("Datos recibidos:", data);
 
         contenedor.innerHTML = '';
@@ -42,17 +40,17 @@ async function cargarProductos() {
 
             data[categoria].forEach(p => {
                 const prodDiv = document.createElement('div');
-prodDiv.className = 'tarjeta-producto';
+                prodDiv.className = 'tarjeta-producto';
 
-// LÓGICA: Si la imagen ya tiene http, la usamos. Si no, le agregamos el API_URL
-const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
+                // LÓGICA CORREGIDA: Definida dentro del ciclo donde 'p' ya existe
+                const srcImagen = (p.imagen && p.imagen.startsWith('http')) ? p.imagen : `${API_URL}${p.imagen}`;
 
-prodDiv.innerHTML = `
-    <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
-    <h3>${p.nombre}</h3>
-    <p>$${p.precio_por_kilo}/Kg</p>
-    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
-`;
+                prodDiv.innerHTML = `
+                    <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
+                    <h3>${p.nombre}</h3>
+                    <p>$${p.precio_por_kilo}/Kg</p>
+                    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
+                `;
                 grid.appendChild(prodDiv);
             });
 
@@ -64,10 +62,10 @@ prodDiv.innerHTML = `
         contenedor.innerHTML = '<p>Error al cargar la tienda.</p>';
     }
 }
+
 function agregarAlCarrito(productoId) {
     console.log("Agregando al carrito el producto ID:", productoId);
     
-    // Aquí irá tu lógica para guardar el producto en localStorage
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     carrito.push(productoId);
     localStorage.setItem('carrito', JSON.stringify(carrito));
