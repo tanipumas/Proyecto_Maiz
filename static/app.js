@@ -2,30 +2,28 @@ const API_URL = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:800
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado.");
-    const contenedor = document.getElementById('contenedor-tienda');
-    if (contenedor) {
+    if (document.getElementById('contenedor-tienda')) {
         cargarProductos();
     }
 });
 
 async function cargarProductos() {
+    const contenedor = document.getElementById('contenedor-tienda');
+    let data = null; // Definimos data aquí para que sea global a esta función
+
     try {
-        console.log("Intentando obtener productos...");
+        console.log("Fetching a:", `${API_URL}/api/productos-agrupados/`);
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
         
-        if (!res.ok) {
-            throw new Error(`Error de servidor: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Error ${res.status}`);
 
-        const data = await res.json();
-        console.log("Datos recibidos:", data); // Esto nos dirá si 'data' es lo que esperamos
+        data = await res.json(); // Ahora sí, asignamos el valor aquí
+        console.log("Datos recibidos:", data);
 
-        const contenedor = document.getElementById('contenedor-tienda');
         contenedor.innerHTML = '';
 
-        // Validamos que 'data' sea un objeto y no esté vacío
         if (!data || Object.keys(data).length === 0) {
-            contenedor.innerHTML = '<p>No hay productos disponibles actualmente.</p>';
+            contenedor.innerHTML = '<p>No hay productos disponibles.</p>';
             return;
         }
 
@@ -58,8 +56,7 @@ async function cargarProductos() {
             contenedor.appendChild(grid);
         });
     } catch (error) {
-        console.error("Error al cargar productos:", error);
-        const contenedor = document.getElementById('contenedor-tienda');
-        if (contenedor) contenedor.innerHTML = '<p>Error al cargar la tienda. Intenta recargar.</p>';
+        console.error("Error capturado:", error);
+        contenedor.innerHTML = '<p>Error al cargar la tienda.</p>';
     }
 }
