@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent # Esto apunta a la raíz 'backend'
 
 SECRET_KEY = 'django-insecure-kevlm$y+3*h4rim!p_%h5svpmizyzaj@q^ikkoy1o$$q@q^ve@'
 DEBUG = True
@@ -85,7 +85,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 
 # REST Framework & CORS
 REST_FRAMEWORK = {
