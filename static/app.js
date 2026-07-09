@@ -1,3 +1,4 @@
+const API_URL = "https://proyecto-maiz.onrender.com";
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado.");
     if (document.getElementById('contenedor-tienda')) {
