@@ -75,6 +75,39 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 4. CARGAR PRODUCTOS
 async function cargarProductos() {
+
+    Object.keys(data).forEach(categoria => {
+    // 1. Crear el encabezado clicable
+    const header = document.createElement('div');
+    header.className = 'categoria-header';
+    header.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
+    
+    // 2. Crear el grid
+    const grid = document.createElement('div');
+    grid.className = 'productos-grid';
+    
+    // 3. Agregar evento de clic para mostrar/ocultar
+    header.onclick = () => {
+        grid.classList.toggle('active');
+        header.querySelector('span').textContent = grid.classList.contains('active') ? '▲' : '▼';
+    };
+
+    // 4. Llenar el grid
+    data[categoria].forEach(p => {
+        grid.innerHTML += `
+            <div class="tarjeta-producto">
+                <img src="${p.imagen}" alt="${p.nombre}" style="width:100px;">
+                <h3>${p.nombre}</h3>
+                <p>$${p.precio_por_kilo}/Kg</p>
+                <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
+            </div>
+        `;
+    });
+
+    // 5. Añadir al contenedor principal
+    contenedor.appendChild(header);
+    contenedor.appendChild(grid);
+});
     try {
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
         const data = await res.json();

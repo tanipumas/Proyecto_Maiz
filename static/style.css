@@ -433,3 +433,38 @@ body {
     text-align: center;
     position: relative;
 }
+.categoria-header {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    transition: background 0.3s;
+}
+
+.categoria-header:hover {
+    background-color: #f0fdf4; /* Un toque de verde muy suave al pasar el mouse */
+}
+
+.categoria-header h2 {
+    margin: 0;
+    color: #1b5e20;
+    font-size: 1.4rem;
+}
+
+/* Ocultar el grid por defecto */
+.productos-grid {
+    display: none; /* Se oculta por defecto */
+    gap: 20px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.productos-grid.active {
+    display: flex; /* Se muestra al activar */
+}
