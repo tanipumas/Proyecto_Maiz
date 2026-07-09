@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from backend.productos import views
+from productos import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/procesar-pago/', views.procesar_pago, name='procesar_pago'),
     path('api/historial/', views.historial_pedidos, name='historial_pedidos'),
     path('api/cambiar-password/', views.cambiar_password, name='cambiar_password'),
+    path('api/productos-agrupados/', views.listar_productos_agrupados, name='listar_productos_agrupados'),
 ]

@@ -10,27 +10,26 @@ from django.contrib.auth.models import User
 
 # ==========================================
 
-
-
 class Proveedor(models.Model):
-
     nombre = models.CharField(max_length=150)
-
     telefono = models.CharField(max_length=20, blank=True, null=True)
 
+    class Meta:
+        app_label = 'productos' # <--- AÑADE ESTO
+
     def __str__(self):
-
         return self.nombre
-
 
 class Categoria(models.Model):
-
     nombre = models.CharField(max_length=100)
+    
+    class Meta:
+        app_label = 'productos' # <--- AÑADE ESTO
 
     def __str__(self):
-
         return self.nombre
 
+# Haz lo mismo para Producto, Pedido y DetallePedido
 
 
 # ==========================================
