@@ -42,13 +42,17 @@ async function cargarProductos() {
 
             data[categoria].forEach(p => {
                 const prodDiv = document.createElement('div');
-                prodDiv.className = 'tarjeta-producto';
-                prodDiv.innerHTML = `
-                    <img src="${p.imagen || ''}" alt="${p.nombre}" style="width:100px;">
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
-                `;
+prodDiv.className = 'tarjeta-producto';
+
+// LÓGICA: Si la imagen ya tiene http, la usamos. Si no, le agregamos el API_URL
+const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
+
+prodDiv.innerHTML = `
+    <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
+    <h3>${p.nombre}</h3>
+    <p>$${p.precio_por_kilo}/Kg</p>
+    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
+`;
                 grid.appendChild(prodDiv);
             });
 
