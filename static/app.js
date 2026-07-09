@@ -28,7 +28,9 @@ window.cerrarModalAutenticacion = function() {
         if (m) m.style.display = 'none';
     };
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function() {
+        cargarProductos();
+});
         // Cargar productos
         if (document.getElementById('contenedor-productos')) cargarProductos();
 
@@ -74,7 +76,7 @@ if (loginForm) {
         }
     });
 }
-    });
+    };
 
     async function cargarProductos() {
     try {
@@ -108,5 +110,4 @@ if (loginForm) {
     } catch (error) {
         console.error("Error al cargar productos:", error);
     }
-}
 }
