@@ -65,7 +65,7 @@ def listar_productos_agrupados(request):
             'id': p.id,
             'nombre': p.nombre,
             'precio_por_kilo': str(p.precio_por_kilo),
-            'imagen': p.imagen.url if p.imagen else ''
+            'imagen': p.imagen.url if p.imagen else None
         })
     return Response(agrupados)
 

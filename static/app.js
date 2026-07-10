@@ -44,7 +44,7 @@ async function cargarProductos() {
                 prodDiv.className = 'tarjeta-producto';
 
                 // LÓGICA CORREGIDA: Definida dentro del ciclo donde 'p' ya existe
-                const srcImagen = (p.imagen && p.imagen.startsWith('http')) ? p.imagen : `${API_URL}${p.imagen}`;
+                const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
 
                 prodDiv.innerHTML = `
                     <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
@@ -72,4 +72,8 @@ function agregarAlCarrito(productoId) {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     
     alert("Producto agregado al carrito");
+}
+function abrirModalAutenticacion() {
+    console.log("El modal de autenticación aún no está programado");
+    // Aquí irá tu lógica para abrir el modal
 }
