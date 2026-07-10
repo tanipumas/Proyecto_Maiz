@@ -43,8 +43,17 @@ async function cargarProductos() {
                 const prodDiv = document.createElement('div');
                 prodDiv.className = 'tarjeta-producto';
 
-                // LÓGICA CORREGIDA: Definida dentro del ciclo donde 'p' ya existe
-                const srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
+                // --- MODIFICACIÓN AQUÍ ---
+                // 1. Verificamos si 'p.imagen' tiene valor antes de hacer nada
+                let srcImagen = "";
+                if (p.imagen) {
+                    // Si p.imagen existe, verificamos si es una URL completa o una ruta local
+                    srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
+                } else {
+                    // Si p.imagen es null, usamos una imagen por defecto
+                    srcImagen = "https://via.placeholder.com/150?text=Sin+Imagen";
+                }
+                // --------------------------
 
                 prodDiv.innerHTML = `
                     <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
