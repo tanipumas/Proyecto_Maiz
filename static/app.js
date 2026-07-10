@@ -1,4 +1,5 @@
 const API_URL = "https://proyecto-maiz.onrender.com";
+
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado.");
     if (document.getElementById('contenedor-tienda')) {
@@ -32,7 +33,7 @@ async function cargarProductos() {
             header.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
             
             const grid = document.createElement('div');
-            grid.className = 'productos-grid';
+            grid.className = 'productos-grid active'; // Iniciamos como active para que se vean
             
             header.onclick = () => {
                 grid.classList.toggle('active');
@@ -43,17 +44,15 @@ async function cargarProductos() {
                 const prodDiv = document.createElement('div');
                 prodDiv.className = 'tarjeta-producto';
 
-                // --- MODIFICACIÓN AQUÍ ---
-                // 1. Verificamos si 'p.imagen' tiene valor antes de hacer nada
+                // Lógica robusta para imágenes
                 let srcImagen = "";
                 if (p.imagen) {
-                    // Si p.imagen existe, verificamos si es una URL completa o una ruta local
+                    // Si p.imagen ya contiene 'http', es una URL completa (ej. Cloudinary).
+                    // Si no, concatenamos la URL base.
                     srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
                 } else {
-                    // Si p.imagen es null, usamos una imagen por defecto
                     srcImagen = "https://via.placeholder.com/150?text=Sin+Imagen";
                 }
-                // --------------------------
 
                 prodDiv.innerHTML = `
                     <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
@@ -75,14 +74,24 @@ async function cargarProductos() {
 
 function agregarAlCarrito(productoId) {
     console.log("Agregando al carrito el producto ID:", productoId);
-    
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     carrito.push(productoId);
     localStorage.setItem('carrito', JSON.stringify(carrito));
-    
     alert("Producto agregado al carrito");
 }
+
 function abrirModalAutenticacion() {
-    console.log("El modal de autenticación aún no está programado");
-    // Aquí irá tu lógica para abrir el modal
+    const modal = document.getElementById('modal-auth');
+    if (modal) {
+        modal.style.display = 'block';
+    } else {
+        console.log("El modal de autenticación aún no está programado o no existe en el HTML");
+    }
+}
+
+function abrirModalRegistro() {
+    const modal = document.getElementById('modal-registro');
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
