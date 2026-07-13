@@ -1,4 +1,5 @@
 import os
+import cloudinary
 from pathlib import Path
 
 # Build paths inside the project
@@ -109,11 +110,17 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
 ]
 # Configuración de Cloudinary
+cloudinary.config(
+    cloud_name = "hojx2qw5",
+    api_key = "181798435912144",
+    api_secret = "WdotTXz2iIPbzYRaWxaFYRoOH6I"
+)
+
+# Configuración específica para el almacenamiento de archivos (lo que ya tenías)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hojx2qw5',
     'API_KEY': '181798435912144',
-    'API_SECRET': 'WdotTXz2iIPbzYRaWxaFYRoOH6I',
+    'API_SECRET': 'WdotTXz2iIPbzYRaWxaFYRoOH6I'
 }
 
-# Esto le dice a Django que use Cloudinary para los archivos de media
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
