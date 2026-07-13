@@ -117,10 +117,10 @@ cloudinary.config(
 )
 
 # Configuración específica para el almacenamiento de archivos (lo que ya tenías)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hojx2qw5',
     'API_KEY': '181798435912144',
     'API_SECRET': 'WdotTXz2iIPbzYRaWxaFYRoOH6I'
 }
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
