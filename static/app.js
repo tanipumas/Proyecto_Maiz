@@ -130,3 +130,15 @@ document.addEventListener('submit', async (e) => {
         }
     }
 });
+function probarLogin() {
+    console.log("¡Clic detectado correctamente!");
+    const user = document.getElementById('modal-username').value;
+    const pass = document.getElementById('modal-password').value;
+    
+    if(user && pass) {
+        console.log("Datos capturados:", user, pass);
+        // Aquí llamaríamos al fetch
+    } else {
+        alert("Por favor escribe usuario y contraseña");
+    }
+}
