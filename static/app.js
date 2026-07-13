@@ -9,17 +9,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
-    let srcImagen = p.imagen ? (p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`) : "";
-
+    
     try {
         console.log("Fetching a:", `${API_URL}/api/productos-agrupados/`);
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
         
         if (!res.ok) throw new Error(`Error ${res.status}`);
 
-        data = await res.json();
-        console.log("Datos recibidos:", data);
-
+        const data = await res.json();
         contenedor.innerHTML = '';
 
         if (!data || Object.keys(data).length === 0) {
@@ -33,33 +30,27 @@ async function cargarProductos() {
             header.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
             
             const grid = document.createElement('div');
-            grid.className = 'productos-grid active'; // Iniciamos como active para que se vean
+            grid.className = 'productos-grid active';
             
             header.onclick = () => {
                 grid.classList.toggle('active');
                 header.querySelector('span').textContent = grid.classList.contains('active') ? '▲' : '▼';
             };
 
-            data[categoria].forEach(p => {
+            // Aseguramos que 'p' exista aquí dentro
+            data[categoria].forEach(p => { 
                 const prodDiv = document.createElement('div');
                 prodDiv.className = 'tarjeta-producto';
 
-                // Lógica robusta para imágenes
-                let srcImagen = "";
-                if (p.imagen) {
-                    // Si p.imagen ya contiene 'http', es una URL completa (ej. Cloudinary).
-                    // Si no, concatenamos la URL base.
-                    srcImagen = p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`;
-                } else {
-                    srcImagen = "https://via.placeholder.com/150?text=Sin+Imagen";
-                }
+                // Lógica de imagen limpia
+                let srcImagen = p.imagen ? (p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`) : "";
 
-               prodDiv.innerHTML = `
-    ${srcImagen ? `<img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">` : '<p>Sin imagen</p>'}
-    <h3>${p.nombre}</h3>
-    <p>$${p.precio_por_kilo}/Kg</p>
-    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
-`;
+                prodDiv.innerHTML = `
+                    ${srcImagen ? `<img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">` : '<p>Sin imagen</p>'}
+                    <h3>${p.nombre}</h3>
+                    <p>$${p.precio_por_kilo}/Kg</p>
+                    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
+                `;
                 grid.appendChild(prodDiv);
             });
 
