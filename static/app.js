@@ -142,3 +142,35 @@ function probarLogin() {
         alert("Por favor escribe usuario y contraseña");
     }
 }
+function intentarLogin() {
+    console.log("--- Botón presionado ---");
+    const user = document.getElementById('modal-username').value;
+    const pass = document.getElementById('modal-password').value;
+
+    if (!user || !pass) {
+        alert("Por favor, llena ambos campos.");
+        return;
+    }
+
+    console.log("Intentando login con:", user);
+    
+    // Si llegamos aquí, el botón funciona. Ahora intentamos el fetch
+    fetch(`${API_URL}/api/login/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Respuesta del servidor:", data);
+        if (data.token) {
+            alert("¡Éxito!");
+        } else {
+            alert("Error: " + (data.error || "Algo salió mal"));
+        }
+    })
+    .catch(err => {
+        console.error("Error de conexión:", err);
+        alert("Error al conectar con el servidor. Revisa la consola F12.");
+    });
+}
