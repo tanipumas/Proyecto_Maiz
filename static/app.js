@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
-    let data = null;
+    let srcImagen = p.imagen ? (p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`) : "";
 
     try {
         console.log("Fetching a:", `${API_URL}/api/productos-agrupados/`);
@@ -54,12 +54,12 @@ async function cargarProductos() {
                     srcImagen = "https://via.placeholder.com/150?text=Sin+Imagen";
                 }
 
-                prodDiv.innerHTML = `
-                    <img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
-                `;
+               prodDiv.innerHTML = `
+    ${srcImagen ? `<img src="${srcImagen}" alt="${p.nombre}" style="width:100px;">` : '<p>Sin imagen</p>'}
+    <h3>${p.nombre}</h3>
+    <p>$${p.precio_por_kilo}/Kg</p>
+    <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">Agregar</button>
+`;
                 grid.appendChild(prodDiv);
             });
 
