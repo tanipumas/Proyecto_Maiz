@@ -130,17 +130,22 @@ document.addEventListener('submit', async (e) => {
         }
     }
 });
-function probarLogin() {
-    console.log("¡Clic detectado correctamente!");
+function pruebaLoginDirecto() {
+    console.log("-> Iniciando prueba de login...");
     const user = document.getElementById('modal-username').value;
     const pass = document.getElementById('modal-password').value;
-    
-    if(user && pass) {
-        console.log("Datos capturados:", user, pass);
-        // Aquí llamaríamos al fetch
-    } else {
-        alert("Por favor escribe usuario y contraseña");
-    }
+
+    fetch(`${API_URL}/api/login/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+    })
+    .then(response => {
+        console.log("Estado de respuesta:", response.status);
+        return response.json();
+    })
+    .then(data => console.log("Respuesta del servidor:", data))
+    .catch(error => console.error("Error crítico de conexión:", error));
 }
 function intentarLogin() {
     console.log("--- Botón presionado ---");
