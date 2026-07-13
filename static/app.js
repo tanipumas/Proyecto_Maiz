@@ -95,3 +95,42 @@ function abrirModalRegistro() {
         modal.style.display = 'block';
     }
 }
+// Manejador para el inicio de sesión
+document.addEventListener('DOMContentLoaded', () => {
+    const formLogin = document.getElementById('form-login-modal');
+    
+    if (formLogin) {
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Esto evita que la página se recargue
+
+            const username = document.getElementById('modal-username').value;
+            const password = document.getElementById('modal-password').value;
+
+            try {
+                const response = await fetch(`${API_URL}/api/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Guardamos la información en el navegador
+                    localStorage.setItem('cliente_token', data.token);
+                    localStorage.setItem('usuario_nombre', data.nombre);
+                    
+                    alert("¡Bienvenido, " + data.nombre + "!");
+                    location.reload(); // Recargamos para que aparezca el menú de perfil
+                } else {
+                    alert("Error: " + (data.error || "Credenciales incorrectas"));
+                }
+            } catch (error) {
+                console.error("Error al conectar:", error);
+                alert("No se pudo conectar con el servidor. Intenta de nuevo.");
+            }
+        });
+    }
+});
