@@ -1,7 +1,9 @@
-const API_URL = "https://proyecto-maiz.onrender.com";
+// Detecta automáticamente el entorno
+const API_URL = window.location.hostname === "proyecto-maiz.onrender.com" 
+    ? "https://proyecto-maiz.onrender.com" 
+    : "http://127.0.0.1:8000";
 
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM cargado.");
+document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('contenedor-tienda')) {
         cargarProductos();
     }
@@ -9,25 +11,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
-    
     try {
-        console.log("Fetching a:", `${API_URL}/api/productos-agrupados/`);
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
-        
-        if (!res.ok) throw new Error(`Error ${res.status}`);
-
+        if (!res.ok) throw new Error("Error al obtener productos");
         const data = await res.json();
+        
         contenedor.innerHTML = '';
-
-        if (!data || Object.keys(data).length === 0) {
-            contenedor.innerHTML = '<p>No hay productos disponibles.</p>';
-            return;
-        }
-
         Object.keys(data).forEach(categoria => {
             const header = document.createElement('div');
             header.className = 'categoria-header';
-            header.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
+            header.innerHTML = `<h2>${categoria} <span>▲</span></h2>`;
             
             const grid = document.createElement('div');
             grid.className = 'productos-grid active';
@@ -37,12 +30,10 @@ async function cargarProductos() {
                 header.querySelector('span').textContent = grid.classList.contains('active') ? '▲' : '▼';
             };
 
-            // Aseguramos que 'p' exista aquí dentro
-            data[categoria].forEach(p => { 
+            data[categoria].forEach(p => {
                 const prodDiv = document.createElement('div');
                 prodDiv.className = 'tarjeta-producto';
-
-                // Lógica de imagen limpia
+                // Concatenación dinámica para la imagen
                 let srcImagen = p.imagen ? (p.imagen.startsWith('http') ? p.imagen : `${API_URL}${p.imagen}`) : "";
 
                 prodDiv.innerHTML = `
@@ -53,120 +44,37 @@ async function cargarProductos() {
                 `;
                 grid.appendChild(prodDiv);
             });
-
             contenedor.appendChild(header);
             contenedor.appendChild(grid);
         });
     } catch (error) {
-        console.error("Error capturado:", error);
+        console.error(error);
         contenedor.innerHTML = '<p>Error al cargar la tienda.</p>';
     }
 }
 
-function agregarAlCarrito(productoId) {
-    console.log("Agregando al carrito el producto ID:", productoId);
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    carrito.push(productoId);
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    alert("Producto agregado al carrito");
-}
+// Lógica de Login simplificada y robusta
+async function intentarLogin() {
+    const username = document.getElementById('modal-username').value;
+    const password = document.getElementById('modal-password').value;
 
-function abrirModalAutenticacion() {
-    const modal = document.getElementById('modal-auth');
-    if (modal) {
-        modal.style.display = 'block';
-    } else {
-        console.log("El modal de autenticación aún no está programado o no existe en el HTML");
-    }
-}
+    try {
+        const response = await fetch(`${API_URL}/api/login/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await response.json();
 
-function abrirModalRegistro() {
-    const modal = document.getElementById('modal-registro');
-    if (modal) {
-        modal.style.display = 'block';
-    }
-}
-// Manejador para el inicio de sesión
-// REEMPLAZA EL BLOQUE FINAL QUE AGREGAMOS POR ESTE:
-document.addEventListener('submit', async (e) => {
-    // Verificamos si el elemento que disparó el submit es nuestro formulario
-    if (e.target && e.target.id === 'form-login-modal') {
-        e.preventDefault(); 
-        
-        console.log("Formulario detectado, iniciando proceso de login...");
-
-        const username = document.getElementById('modal-username').value;
-        const password = document.getElementById('modal-password').value;
-
-        try {
-            const response = await fetch(`${API_URL}/api/login/`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                localStorage.setItem('cliente_token', data.token);
-                localStorage.setItem('usuario_nombre', data.nombre);
-                alert("¡Bienvenido, " + data.nombre + "!");
-                location.reload();
-            } else {
-                alert("Error: " + (data.error || "Credenciales incorrectas"));
-            }
-        } catch (error) {
-            console.error("Error al conectar:", error);
-            alert("No se pudo conectar con el servidor.");
-        }
-    }
-});
-function pruebaLoginDirecto() {
-    console.log("-> Iniciando prueba de login...");
-    const user = document.getElementById('modal-username').value;
-    const pass = document.getElementById('modal-password').value;
-
-    fetch(`${API_URL}/api/login/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, password: pass })
-    })
-    .then(response => {
-        console.log("Estado de respuesta:", response.status);
-        return response.json();
-    })
-    .then(data => console.log("Respuesta del servidor:", data))
-    .catch(error => console.error("Error crítico de conexión:", error));
-}
-function intentarLogin() {
-    console.log("--- Botón presionado ---");
-    const user = document.getElementById('modal-username').value;
-    const pass = document.getElementById('modal-password').value;
-
-    if (!user || !pass) {
-        alert("Por favor, llena ambos campos.");
-        return;
-    }
-
-    console.log("Intentando login con:", user);
-    
-    // Si llegamos aquí, el botón funciona. Ahora intentamos el fetch
-    fetch(`${API_URL}/api/login/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, password: pass })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Respuesta del servidor:", data);
-        if (data.token) {
-            alert("¡Éxito!");
+        if (response.ok) {
+            localStorage.setItem('cliente_token', data.token);
+            localStorage.setItem('usuario_nombre', data.nombre);
+            alert(`¡Bienvenido, ${data.nombre}!`);
+            location.reload();
         } else {
-            alert("Error: " + (data.error || "Algo salió mal"));
+            alert(data.error || "Credenciales incorrectas");
         }
-    })
-    .catch(err => {
-        console.error("Error de conexión:", err);
-        alert("Error al conectar con el servidor. Revisa la consola F12.");
-    });
+    } catch (error) {
+        alert("Error de conexión con el servidor.");
+    }
 }

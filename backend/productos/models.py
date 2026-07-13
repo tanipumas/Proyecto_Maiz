@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from cloudinary.models import CloudinaryField
 
 
 # ==========================================
@@ -52,8 +53,7 @@ class Producto(models.Model):
 
     stock_disponible_kilos = models.DecimalField(max_digits=10, decimal_places=2)
 
-    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
-
+    imagen = CloudinaryField('imagen', blank=True, null=True)
 
 
     @property

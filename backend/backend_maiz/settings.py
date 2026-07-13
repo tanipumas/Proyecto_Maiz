@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'productos',
     'cloudinary_storage',
     'cloudinary',
-  ]
+      ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -112,7 +112,7 @@ CSRF_TRUSTED_ORIGINS = [
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hojx2qw5',
     'API_KEY': '181798435912144',
-    'API_SECRET': '<TU_API_SECRET_AQUÍ>',
+    'API_SECRET': 'WdotTXz2iIPbzYRaWxaFYRoOH6I',
 }
 
 # Esto le dice a Django que use Cloudinary para los archivos de media
