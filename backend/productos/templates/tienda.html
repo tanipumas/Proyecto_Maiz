@@ -6,105 +6,45 @@
     <title>Insumos Molineros de México</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
-        /* Estilos para el Modal Flotante */
-        .modal-login {
-            display: none; position: fixed; z-index: 1000; 
-            left: 0; top: 0; width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.5); 
-            align-items: center; justify-content: center;
-        }
-        .modal-contenido {
-            background-color: white; padding: 30px; border-radius: 8px; 
-            width: 100%; max-width: 350px; position: relative; text-align: center;
-        }
-        .btn-cerrar-modal {
-            position: absolute; top: 10px; right: 15px; 
-            font-size: 1.5rem; cursor: pointer; border: none; background: none;
-        }
-        .modal-contenido input {
-            width: 100%; padding: 10px; margin: 10px 0;
-            border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
-        }
-        .modal-contenido button[type="submit"] {
-            width: 100%; padding: 12px; background-color: #2e7d32;
-            color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
-        }
+        .modal-login { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal-contenido { background-color: white; padding: 30px; border-radius: 8px; width: 100%; max-width: 350px; position: relative; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a href="{% url 'inicio' %}" class="nav-logo" style="text-decoration: none; color: inherit; display: block; cursor: pointer;">
-    🌾 INSUMOS MOLINEROS DE MÉXICO
-</a>    
-        🌾 INSUMOS MOLINEROS DE MÉXICO
-        </div>
+        <a href="{% url 'inicio' %}" class="nav-logo">🌾 INSUMOS MOLINEROS</a>
         
         <div style="display: flex; align-items: center; gap: 35px;">
             <ul class="nav-links">
                 <li><a href="{% url 'dashboard' %}">Inicio</a></li>
                 <li><a href="{% url 'tienda' %}" class="active">Tienda</a></li>
                 <li id="menu-privado-perfil" style="display: none;"><a href="{% url 'perfil' %}">Mi Perfil</a></li>
-                <li id="menu-privado-carrito"><a href="{% url 'carrito' %}" class="nav-cart">🛒 Carrito</a></li>
+                <li id="menu-privado-carrito" style="display: none;"><a href="{% url 'carrito' %}" class="nav-cart">🛒 Carrito</a></li>
             </ul>
             
             <div id="auth-seccion" style="display: flex; gap: 15px; align-items: center;">
-                <button id="btn-nav-login" class="nav-btn" onclick="abrirModalAutenticacion()">
-    🔐 Iniciar Sesión
-</button>
-                <button id="btn-nav-registro" class="nav-btn" onclick="abrirModalRegistro()" style="background-color: #1565c0; border-color: #1565c0;">📝 Registrarse</button>
+                <button id="btn-nav-login" class="nav-btn">🔐 Iniciar Sesión</button>
+                <button id="btn-nav-registro" class="nav-btn" style="background-color: #1565c0;">📝 Registrarse</button>
                 
                 <div id="nav-usuario-info" style="display: none; align-items: center; gap: 15px;">
                     <span id="nav-nombre-usuario" style="font-weight: bold; color: white;"></span>
-                    <button class="nav-btn" onclick="cerrarSesionCliente()" style="background-color: #c62828; border-color: #c62828; padding: 5px 12px;">Salir</button>
+                    <button class="nav-btn" onclick="window.cerrarSesionCliente()" style="background-color: #c62828;">Salir</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div id="modal-registro" class="modal-login"> </div>
-    
     {% include 'modales.html' %}
 
     <main class="contenedor-principal" style="padding: 40px 20px;">
         <div id="contenedor-tienda"></div>
     </main>
 
-    <footer class="footer-corporativo">
-        <div class="footer-contenedor">
-            <div class="footer-columna">
-                <h3>Insumos Molineros</h3>
-                <p>Distribuidora líder en maíz de alta calidad.</p>
-                <p>📍 Ciudad de México, México</p>
-            </div>
-
-            <div class="footer-columna">
-                <h3>Enlaces Útiles</h3>
-                <ul class="footer-enlaces">
-                    <li><a href="{% url 'dashboard' %}">Inicio</a>
-                    <li><a href="{% url 'tienda' %}">Catálogo de Productos</a></li>
-                    <li><a href="#">Términos y Condiciones</a></li>
-                    <li><a href="#">Aviso de Privacidad</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-columna">
-                <h3>Soporte y Pagos</h3>
-                <p>Transacciones 100% seguras.</p>
-                <div class="metodos-pago">
-                    <span class="pago-tag">💳 Tarjeta</span>
-                    <span class="pago-tag">🏦 SPEI</span>
-                </div>
-            </div>
-        </div>
-        <div class="footer-inferior">
-            &copy; 2026 Insumos Molineros de México S.A. de C.V.
-        </div>
-    </footer>
-
     <script src="{% static 'app.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Lógica de visibilidad
             const token = localStorage.getItem('cliente_token');
             if (token) {
                 document.getElementById('menu-privado-carrito').style.display = 'block';
@@ -114,4 +54,15 @@
                 document.getElementById('nav-usuario-info').style.display = 'flex';
                 document.getElementById('nav-nombre-usuario').innerText = localStorage.getItem('usuario_nombre') || "Cliente";
             }
+
+            // Eventos seguros
+            document.getElementById('btn-nav-login').addEventListener('click', () => {
+                if (window.abrirModalAutenticacion) window.abrirModalAutenticacion();
+            });
+            document.getElementById('btn-nav-registro').addEventListener('click', () => {
+                if (window.abrirModalRegistro) window.abrirModalRegistro();
+            });
         });
+    </script>
+</body>
+</html>
