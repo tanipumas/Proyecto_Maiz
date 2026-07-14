@@ -13,7 +13,7 @@ async function cargarProductos() {
         const res = await fetch(url);
         const data = await res.json();
         
-        console.log("4. Datos obtenidos:", data);
+        console.log("4. Datos obtenidos:", JSON.stringify(data, null, 2));
     } catch (e) {
         console.error("5. Error en fetch:", e);
     }
