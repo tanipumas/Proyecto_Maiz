@@ -1,28 +1,58 @@
+// 1. PRIMERO: Definimos las variables y funciones
+const API_URL = window.location.hostname === "proyecto-maiz.onrender.com" 
+    ? "https://proyecto-maiz.onrender.com" 
+    : "http://127.0.0.1:8000";
+
+window.abrirModalAutenticacion = function() {
+    const modal = document.getElementById('modal-auth');
+    if (modal) modal.style.display = 'flex';
+};
+
+window.abrirModalRegistro = function() {
+    const modal = document.getElementById('modal-registro');
+    if (modal) modal.style.display = 'flex';
+};
+
+async function cargarProductos() {
+    const contenedor = document.getElementById('contenedor-tienda');
+    if (!contenedor) return;
+    
+    try {
+        const res = await fetch(`${API_URL}/api/productos-agrupados/`);
+        const data = await res.json();
+        
+        contenedor.innerHTML = ''; 
+        for (const categoria in data) {
+            const seccion = document.createElement('div');
+            seccion.innerHTML = `<h2>${categoria}</h2>`;
+            contenedor.appendChild(seccion);
+            
+            const grid = document.createElement('div');
+            grid.className = 'productos-grid';
+            
+            data[categoria].forEach(p => {
+                const prodDiv = document.createElement('div');
+                prodDiv.innerHTML = `<h3>${p.nombre}</h3><p>$${p.precio_por_kilo}/Kg</p>`;
+                grid.appendChild(prodDiv);
+            });
+            contenedor.appendChild(grid);
+        }
+    } catch (e) {
+        console.error("Error al cargar productos", e);
+    }
+}
+
+// 2. DESPUÉS: Ejecutamos el listener cuando todo está cargado
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Esto se ejecuta en TODAS las páginas
     console.log("DOM listo");
 
-    // 2. Lógica condicional: Solo cargar productos si estamos en la tienda
     const contenedor = document.getElementById('contenedor-tienda');
     if (contenedor) {
-        console.log("Estamos en la tienda, cargando productos...");
-        cargarProductos(); 
-    } else {
-        console.log("Estamos en otra página (ej. Dashboard), omitiendo carga de productos.");
+        cargarProductos();
     }
 
-    // 3. Vincular botones SIEMPRE (existan o no en esta página)
     const btnLogin = document.getElementById('btn-nav-login');
     if (btnLogin) {
-        btnLogin.addEventListener('click', () => {
-            if (window.abrirModalAutenticacion) window.abrirModalAutenticacion();
-        });
-    }
-
-    const btnRegistro = document.getElementById('btn-nav-registro');
-    if (btnRegistro) {
-        btnRegistro.addEventListener('click', () => {
-            if (window.abrirModalRegistro) window.abrirModalRegistro();
-        });
+        btnLogin.addEventListener('click', () => window.abrirModalAutenticacion());
     }
 });
