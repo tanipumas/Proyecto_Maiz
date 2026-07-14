@@ -27,35 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
         cargarProductos();
     }
 });
-
 async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
+    if (!contenedor) return;
+    
     try {
+        console.log("Intentando obtener productos desde:", `${API_URL}/api/productos-agrupados/`);
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
         const data = await res.json();
-        contenedor.innerHTML = '';
         
-        for (const categoria in data) {
-            const header = document.createElement('div');
-            header.innerHTML = `<h2>${categoria}</h2>`;
-            contenedor.appendChild(header);
-            
-            const grid = document.createElement('div');
-            grid.className = 'productos-grid';
-            
-            data[categoria].forEach(p => {
-                const prodDiv = document.createElement('div');
-                prodDiv.className = 'tarjeta-producto';
-                prodDiv.innerHTML = `
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button onclick="agregarAlCarrito(${p.id})">Agregar</button>
-                `;
-                grid.appendChild(prodDiv);
-            });
-            contenedor.appendChild(grid);
+        console.log("Datos recibidos del servidor:", data); // <--- ESTO ES LO MÁS IMPORTANTE
+        
+        if (Object.keys(data).length === 0) {
+            contenedor.innerHTML = '<p>No hay productos disponibles.</p>';
+            return;
         }
+
+        contenedor.innerHTML = '';
+        // ... (resto del código de renderizado)
     } catch (e) {
-        console.error("Error al cargar productos", e);
+        console.error("Error crítico en cargarProductos:", e);
     }
 }
