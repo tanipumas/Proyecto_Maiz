@@ -23,6 +23,8 @@ async function cargarProductos() {
         
         contenedor.innerHTML = ''; 
         for (const categoria in data) {
+            
+            console.log("Procesando categoría:", categoria);
             const seccion = document.createElement('div');
             seccion.innerHTML = `<h2>${categoria}</h2>`;
             contenedor.appendChild(seccion);
