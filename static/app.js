@@ -1,7 +1,7 @@
 // Detecta automáticamente el entorno
 const API_URL = window.location.hostname === "proyecto-maiz.onrender.com" 
     ? "https://proyecto-maiz.onrender.com" 
-    : "http://127.0.0.1:8000";
+    : "https://127.0.0.1:8000";
 
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('contenedor-tienda')) {
@@ -78,3 +78,9 @@ async function intentarLogin() {
         alert("Error de conexión con el servidor.");
     }
 }
+document.addEventListener("DOMContentLoaded", () => {
+    const btnLogin = document.getElementById('btn-login');
+    if (btnLogin) {
+        btnLogin.addEventListener('click', abrirModalAutenticacion);
+    }
+});
