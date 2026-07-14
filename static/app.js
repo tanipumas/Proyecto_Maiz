@@ -1,3 +1,6 @@
+alert("¡app.js se está ejecutando!");
+console.log("El archivo app.js cargó correctamente");
+
 const API_URL = window.location.hostname === "proyecto-maiz.onrender.com" 
     ? "https://proyecto-maiz.onrender.com" 
     : "http://127.0.0.1:8000";
