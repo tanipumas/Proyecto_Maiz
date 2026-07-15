@@ -17,30 +17,40 @@ async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
     if (!contenedor) return;
     
+    console.log("Intentando conectar a:", `${API_URL}/api/productos-agrupados/`);
+    
     try {
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        
         const data = await res.json();
+        console.log("Datos recibidos:", data); // ¡Esto nos dirá qué llega realmente!
         
         contenedor.innerHTML = ''; 
+        
         for (const categoria in data) {
-            
-            console.log("Procesando categoría:", categoria);
             const seccion = document.createElement('div');
             seccion.innerHTML = `<h2>${categoria}</h2>`;
             contenedor.appendChild(seccion);
             
             const grid = document.createElement('div');
-            grid.className = 'productos-grid';
+            grid.className = 'productos-grid active'; // Añadimos 'active' para forzar visibilidad
             
             data[categoria].forEach(p => {
                 const prodDiv = document.createElement('div');
-                prodDiv.innerHTML = `<h3>${p.nombre}</h3><p>$${p.precio_por_kilo}/Kg</p>`;
+                prodDiv.className = 'tarjeta-producto'; // Aseguramos la clase CSS
+                prodDiv.innerHTML = `
+                    <h3>${p.nombre}</h3>
+                    <p>$${p.precio_por_kilo}/Kg</p>
+                    <button class="btn-agregar-carrito">Agregar</button>
+                `;
                 grid.appendChild(prodDiv);
             });
             contenedor.appendChild(grid);
         }
     } catch (e) {
-        console.error("Error al cargar productos", e);
+        console.error("Error detallado al cargar productos:", e);
+        contenedor.innerHTML = `<p style="color:red">Error al cargar productos: ${e.message}</p>`;
     }
 }
 
