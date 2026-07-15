@@ -17,57 +17,47 @@ async function cargarProductos() {
     const contenedor = document.getElementById('contenedor-tienda');
     if (!contenedor) return;
     
-    console.log("Intentando conectar a:", `${API_URL}/api/productos-agrupados/`);
-    
     try {
         const res = await fetch(`${API_URL}/api/productos-agrupados/`);
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        
         const data = await res.json();
-        console.log("Datos recibidos:", data); // ¡Esto nos dirá qué llega realmente!
         
         contenedor.innerHTML = ''; 
         
         for (const categoria in data) {
+            // 1. Crear encabezado de categoría
             const seccion = document.createElement('div');
-            seccion.innerHTML = `<h2>${categoria}</h2>`;
-            contenedor.appendChild(seccion);
+            seccion.className = 'categoria-header';
+            seccion.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
             
+            // 2. Crear contenedor grid (oculto por defecto según tu CSS)
             const grid = document.createElement('div');
-            grid.className = 'productos-grid active'; // Añadimos 'active' para forzar visibilidad
+            grid.className = 'productos-grid'; 
             
+            // 3. Llenar productos
             data[categoria].forEach(p => {
-    const prodDiv = document.createElement('div');
-    prodDiv.className = 'tarjeta-producto';
-    
-    // Creamos las opciones del 1 al 10 para el selector
-    let opcionesKilos = '';
-    for(let i = 1; i <= 10; i++) {
-        opcionesKilos += `<option value="${i}">${i} kg</option>`;
-    }
+                const prodDiv = document.createElement('div');
+                prodDiv.className = 'tarjeta-producto';
+                prodDiv.innerHTML = `
+                    <h3>${p.nombre}</h3>
+                    <p>$${p.precio_por_kilo}/Kg</p>
+                    <button class="btn-agregar-carrito">Agregar</button>
+                `;
+                grid.appendChild(prodDiv);
+            });
 
-    prodDiv.innerHTML = `
-        <h3>${p.nombre}</h3>
-        <p>$${p.precio_por_kilo}/Kg</p>
-        
-        <div class="selector-kilos">
-            <label>Cantidad:</label>
-            <select class="select-cantidad" id="select-${p.id}">
-                ${opcionesKilos}
-            </select>
-        </div>
-        
-        <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">
-            Agregar al carrito
-        </button>
-    `;
-    grid.appendChild(prodDiv);
-});
+            // 4. Lógica de despliegue al hacer clic
+            seccion.addEventListener('click', () => {
+                grid.classList.toggle('active');
+                // Opcional: rotar la flechita
+                const span = seccion.querySelector('span');
+                span.innerText = grid.classList.contains('active') ? '▲' : '▼';
+            });
+
+            contenedor.appendChild(seccion);
             contenedor.appendChild(grid);
         }
     } catch (e) {
-        console.error("Error detallado al cargar productos:", e);
-        contenedor.innerHTML = `<p style="color:red">Error al cargar productos: ${e.message}</p>`;
+        console.error("Error al cargar productos", e);
     }
 }
 
