@@ -457,28 +457,14 @@ body {
 }
 
 /* Ocultar el grid por defecto */
-/* El grid debe estar oculto por defecto */
 .productos-grid {
-    display: none; 
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none; /* Se oculta por defecto */
     gap: 20px;
     padding: 20px 0;
-    transition: all 0.3s ease; /* Transición suave */
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Cuando se le añade la clase 'active', se despliega */
 .productos-grid.active {
-    display: flex;
-}
-
-/* Estilo para el cursor al pasar sobre la categoría */
-.categoria-header {
-    cursor: pointer;
-    background-color: #ffffff;
-    padding: 15px 20px;
-    margin: 20px 0;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    user-select: none; /* Evita que se seleccione el texto al dar click rápido */
+    display: flex; /* Se muestra al activar */
 }
