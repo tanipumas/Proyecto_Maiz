@@ -22,38 +22,21 @@ async function cargarProductos() {
         const data = await res.json();
         
         contenedor.innerHTML = ''; 
-        
         for (const categoria in data) {
-            // 1. Crear encabezado de categoría
+            
+            console.log("Procesando categoría:", categoria);
             const seccion = document.createElement('div');
-            seccion.className = 'categoria-header';
-            seccion.innerHTML = `<h2>${categoria} <span>▼</span></h2>`;
+            seccion.innerHTML = `<h2>${categoria}</h2>`;
+            contenedor.appendChild(seccion);
             
-            // 2. Crear contenedor grid (oculto por defecto según tu CSS)
             const grid = document.createElement('div');
-            grid.className = 'productos-grid'; 
+            grid.className = 'productos-grid';
             
-            // 3. Llenar productos
             data[categoria].forEach(p => {
                 const prodDiv = document.createElement('div');
-                prodDiv.className = 'tarjeta-producto';
-                prodDiv.innerHTML = `
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button class="btn-agregar-carrito">Agregar</button>
-                `;
+                prodDiv.innerHTML = `<h3>${p.nombre}</h3><p>$${p.precio_por_kilo}/Kg</p>`;
                 grid.appendChild(prodDiv);
             });
-
-            // 4. Lógica de despliegue al hacer clic
-            seccion.addEventListener('click', () => {
-                grid.classList.toggle('active');
-                // Opcional: rotar la flechita
-                const span = seccion.querySelector('span');
-                span.innerText = grid.classList.contains('active') ? '▲' : '▼';
-            });
-
-            contenedor.appendChild(seccion);
             contenedor.appendChild(grid);
         }
     } catch (e) {
