@@ -37,15 +37,32 @@ async function cargarProductos() {
             grid.className = 'productos-grid active'; // Añadimos 'active' para forzar visibilidad
             
             data[categoria].forEach(p => {
-                const prodDiv = document.createElement('div');
-                prodDiv.className = 'tarjeta-producto'; // Aseguramos la clase CSS
-                prodDiv.innerHTML = `
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button class="btn-agregar-carrito">Agregar</button>
-                `;
-                grid.appendChild(prodDiv);
-            });
+    const prodDiv = document.createElement('div');
+    prodDiv.className = 'tarjeta-producto';
+    
+    // Creamos las opciones del 1 al 10 para el selector
+    let opcionesKilos = '';
+    for(let i = 1; i <= 10; i++) {
+        opcionesKilos += `<option value="${i}">${i} kg</option>`;
+    }
+
+    prodDiv.innerHTML = `
+        <h3>${p.nombre}</h3>
+        <p>$${p.precio_por_kilo}/Kg</p>
+        
+        <div class="selector-kilos">
+            <label>Cantidad:</label>
+            <select class="select-cantidad" id="select-${p.id}">
+                ${opcionesKilos}
+            </select>
+        </div>
+        
+        <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${p.id})">
+            Agregar al carrito
+        </button>
+    `;
+    grid.appendChild(prodDiv);
+});
             contenedor.appendChild(grid);
         }
     } catch (e) {
