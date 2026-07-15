@@ -58,3 +58,30 @@ document.addEventListener("DOMContentLoaded", () => {
         btnLogin.addEventListener('click', () => window.abrirModalAutenticacion());
     }
 });
+window.pruebaLoginDirecto = async function() {
+    const username = document.getElementById('modal-username').value;
+    const password = document.getElementById('modal-password').value;
+
+    try {
+        const response = await fetch(`${API_URL}/api/login/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Guardamos el token y el nombre
+            localStorage.setItem('cliente_token', data.token);
+            localStorage.setItem('usuario_nombre', data.nombre);
+            alert("¡Bienvenido!");
+            window.location.reload(); // Recarga para actualizar el menú
+        } else {
+            alert(data.error || "Error al iniciar sesión");
+        }
+    } catch (error) {
+        console.error("Error crítico:", error);
+        alert("No se pudo conectar al servidor.");
+    }
+};
