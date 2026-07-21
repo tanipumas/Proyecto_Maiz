@@ -8,7 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent # Esto apunta a la raí
 SECRET_KEY = 'django-insecure-kevlm$y+3*h4rim!p_%h5svpmizyzaj@q^ikkoy1o$$q@q^ve@'
 DEBUG = True
 
-ALLOWED_HOSTS = ['proyecto-maiz.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'proyecto-maiz.onrender.com', 
+    'localhost', 
+    '127.0.0.1', 
+    '172.31.97.23'
+]
 
 # Application definition
 INSTALLED_APPS = [
