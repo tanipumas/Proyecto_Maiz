@@ -10,7 +10,7 @@
         /* Estilos globales de respaldo y tipografía */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fcfbf7; /* Un tono crema muy suave, ideal para concepto agrícola */
+            background-color: #fcfbf7; 
             margin: 0;
             padding: 0;
         }
@@ -178,7 +178,7 @@
 <body>
 
     <nav class="navbar">
-    <div class="nav-logo">🌽 Insumos Molineros de México</div>
+    <div class="nav-logo"> CAFÉ DE ESPECIALIDAD</div>
     <ul class="nav-links">
         <li><a href="{% url 'dashboard' %}">Inicio</a></li>
         <li><a href="{% url 'tienda' %}">Tienda / Catálogo</a></li>
@@ -186,23 +186,24 @@
 </nav>
 
 <a href="{% url 'tienda' %}" class="btn-oferta" style="text-decoration: none; display: inline-block;">
-    Aprovechar Oferta Ahora 🌽
+    Aprovechar Oferta Ahora 
 </a>
-    <a href="{% url 'tienda' %}" class="btn-oferta">Aprovechar Oferta Ahora 🌽</a>
+    <a href="{% url 'tienda' %}" class="btn-oferta">Aprovechar Oferta Ahora </a>
 
     <div class="contenedor-principal" style="max-width: 1200px; margin: 0 auto; padding: 20px 20px 40px 20px;">
         
         <header class="hero-seccion" style="margin-top: 20px;">
-            <h1>¡Bienvenido a Insumos Molineros de México!</h1>
-            <p>Somos la solución definitiva a tus necesidades de inventario. Granos seleccionados, e insumos de la más alta calidad.</p>
+            <h1>¡Bienvenido a MUTANTE !</h1>
+            <p>"SELECCIÓN Y TUESTE DE CAFÉ"
+                Granos de origen único, tostados artesanalmente con precisión y carácter</p>
             <a href="/tienda/" class="btn-comenzar">Explorar Catálogo de Productos 🛒</a>
         </header>
 
         <section class="banner-ofertas">
             <span class="etiqueta-en-vivo">🔥 PROMOCIÓN DEL MES</span>
-            <h2>¡Descuento Especial en Maíz Blanco Criollo!</h2>
-            <p>Llévate más de <strong>500 Kg</strong> y obtén un <strong>10% de descuento directo</strong> en tu cotización final en bodega. Garantiza el abasto de tu molino hoy mismo.</p>
-            <button class="btn-oferta" onclick="window.location.href='tienda'">Aprovechar Oferta Ahora 🌽</button>
+            <h2>¡Descuento Especial en Cafe Artezanal!</h2>
+            <p>Llévate más de <strong>100 Kg</strong> y obtén un <strong>10% de descuento directo</strong> en tu cotización final en bodega. Garantiza el abasto de tu Cafeteria.</p>
+            <button class="btn-oferta" onclick="window.location.href='tienda'">Aprovechar Oferta Ahora </button>
         </section>
         {% include 'modales.html' %} <script src="{% static 'app.js' %}"></script>
 </body>
