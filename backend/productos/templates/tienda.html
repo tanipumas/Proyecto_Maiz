@@ -9,10 +9,15 @@
 <body style="background-color: var(--bg-primary, #0a0a0a); color: var(--text-main, #f0f0f0); margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
 
     <header class="molinera-header" style="background-color: var(--bg-card, #161616); border-bottom: 1px solid var(--border-color, #333333); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
-        <div class="logo-area" style="display: flex; align-items: center; gap: 15px;">
+        <div class="logo-area" style="display: flex; align-items: center; gap: 20px;">
     <a href="{% url 'dashboard' %}" style="display: inline-block; text-decoration: none;">
-        <img src="{% static 'logo.jpeg' %}" alt="Mutante Tostadores" style="height: 55px; width: auto; object-fit: contain; display: block;">
+        <img src="{% static 'logo.jpeg' %}" alt="Mutante Tostadores" style="height: 75px; width: auto; object-fit: contain; display: block;">
     </a>
+    
+    <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 1.1rem; font-weight: 700; color: var(--text-main, #f0f0f0); letter-spacing: 1px; text-transform: uppercase;">Mutante Tostadores</span>
+        <span style="font-size: 0.8rem; color: var(--accent, #c5a065); letter-spacing: 0.5px;">Del grano a tu taza • Selección y tueste de especialidad</span>
+    </div>
 </div>
         
         <div style="display: flex; align-items: center; gap: 35px;">
