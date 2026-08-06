@@ -8,13 +8,16 @@
 </head>
 <body style="background-color: var(--bg-primary, #080808); color: var(--text-main, #e0e0e0); margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace, sans-serif;">
 
-    <nav class="navbar">
-        <div class="nav-logo">☕ MUTANTE TOSTADORES</div>
-        <ul class="nav-links">
-            <li><a href="{% url 'dashboard' %}" class="active">Inicio</a></li>
-            <li><a href="{% url 'tienda' %}">Tienda / Catálogo</a></li>
-        </ul>
-    </nav>
+ <nav class="navbar">
+    <a href="{% url 'dashboard' %}" class="nav-logo-container" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="{% static 'images/logo.jpeg' %}" alt="Mutante Tostadores" style="height: 40px; width: auto; object-fit: contain;">
+    </a>
+    
+    <ul class="nav-links">
+        <li><a href="{% url 'dashboard' %}" class="active">Inicio</a></li>
+        <li><a href="{% url 'tienda' %}">Tienda / Catálogo</a></li>
+    </ul>
+</nav>
 
     <main class="contenedor-principal" style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
         
@@ -22,14 +25,14 @@
             <h1 style="font-size: 2.5rem; color: var(--text-main, #fff); letter-spacing: 2px; margin-top: 0; text-transform: uppercase;">¡Bienvenido a Mutante!</h1>
             <p style="color: var(--text-muted, #757575); font-size: 1.1rem; max-width: 600px; margin: 20px auto 30px auto;">
                 "SELECCIÓN Y TUESTE DE CAFÉ"<br>
-                Granos de origen único, tostados artesanalmente con precisión y carácter.
+                Granos de origen único, tostados con precisión y carácter.
             </p>
             <a href="{% url 'tienda' %}" class="btn-artesanal" style="display: inline-block;">Explorar Catálogo de Café</a>
         </header>
 
         <section class="promo-card" style="background: #111111; border: 1px solid var(--accent, #d4a373); border-radius: 4px; padding: 40px; color: var(--text-main, #e0e0e0); margin-bottom: 40px;">
             <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent, #d4a373);">🔥 PROMOCIÓN DEL MES</span>
-            <h2 style="color: var(--accent, #d4a373); font-size: 1.8rem; margin: 10px 0;">¡Descuento Especial en Café Artesanal!</h2>
+            <h2 style="color: var(--accent, #d4a373); font-size: 1.8rem; margin: 10px 0;">¡Descuento Especial en Café de Especialidad!</h2>
             <p style="color: #a0a0a0; line-height: 1.6;">
                 Llévate más de <strong>100 Kg</strong> y obtén un <strong>10% de descuento directo</strong> en tu cotización final. Garantiza el abasto de tu cafetería con el mejor grano.
             </p>
