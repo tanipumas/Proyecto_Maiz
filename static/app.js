@@ -37,15 +37,15 @@ async function cargarProductos() {
             grid.className = 'productos-grid active'; // Añadimos 'active' para forzar visibilidad
             
             data[categoria].forEach(p => {
-                const prodDiv = document.createElement('div');
-                prodDiv.className = 'tarjeta-producto'; // Aseguramos la clase CSS
-                prodDiv.innerHTML = `
-                    <h3>${p.nombre}</h3>
-                    <p>$${p.precio_por_kilo}/Kg</p>
-                    <button class="btn-agregar-carrito">Agregar</button>
-                `;
-                grid.appendChild(prodDiv);
-            });
+    grid.innerHTML += `
+        <div class="tarjeta-producto">
+            <img src="${p.imagen}" alt="${p.nombre}">
+            <h3>${p.nombre}</h3>
+            <p>$${p.precio_por_kilo} / Kg</p>
+            <button onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+        </div>
+    `;
+});
             contenedor.appendChild(grid);
         }
     } catch (e) {
