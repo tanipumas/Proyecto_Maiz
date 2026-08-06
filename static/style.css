@@ -1,177 +1,193 @@
-/* --- ESTILO TIERRA OSCURA / CAFÉ GÓTICO / ESPECIALIDAD --- */
+/* --- ESTILO ORO TOSTADO / PREMIUM DARK (Con más vida) --- */
 :root {
-    --bg-primary: #080808;       /* Negro absoluto gótico */
-    --bg-card: #141414;          /* Tarjetas oscuras texturizadas visualmente */
-    --text-main: #e0e0e0;        /* Blanco plata / hueso */
-    --text-muted: #757575;       /* Gris desgastado */
-    --accent: #d4a373;           /* Tono café tostado artesanal */
-    --accent-hover: #faedcd;     /* Tono claro desgastado */
-    --border-color: #262626;     /* Líneas sutiles y rudas */
+    /* Base oscura mucho más rica, no tan plana */
+    --bg-primary: #0a0a0a;       /* Negro intenso pero con un matiz muy leve */
+    --bg-card: #161616;          /* Tarjetas ligeramente más claras para separar del fondo */
+    
+    /* Textos con mayor contraste y legibilidad */
+    --text-main: #f0f0f0;        /* Un blanco más limpio y brillante */
+    --text-muted: #a0a0a0;       /* Gris medio para descripciones (mejor lectura) */
+    
+    /* Acentos de color vibrantes (Oro Tostado / Cobre) */
+    --accent: #c5a065;           /* Oro viejo / Bronce más saturado y vivo */
+    --accent-hover: #e6c796;     /* Oro pálido brillante para efectos */
+    
+    /* Bordes definidos */
+    --border-color: #333333;     /* Bordes un poco más claros para dar estructura */
 }
 
 body {
-    font-family: 'Courier New', Courier, monospace, sans-serif; /* Toque más crudo/industrial */
+    /* Fuente más amigable pero con carácter */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
     background-color: var(--bg-primary);
     color: var(--text-main);
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    line-height: 1.7; /* Un poco más de aire entre líneas */
 }
 
 /* --- BARRA DE NAVEGACIÓN --- */
 .navbar, header {
     background-color: var(--bg-card);
-    border-bottom: 2px solid var(--border-color);
-    padding: 25px 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Sombra sutil para despegar el header */
 }
 
 .nav-logo, header h1 {
-    font-size: 1.5rem;
-    color: var(--text-main);
-    letter-spacing: 3px;
+    font-size: 1.6rem;
+    color: var(--accent); /* Usamos el Oro aquí */
+    letter-spacing: 2px;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 800;
     text-decoration: none;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
+    gap: 35px;
 }
 
 .nav-links a {
-    color: var(--text-muted);
+    color: var(--text-main);
     text-decoration: none;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: color 0.2s;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+    font-weight: 500;
 }
 
 .nav-links a:hover, .nav-links a.active {
-    color: var(--accent);
+    color: var(--accent); /* El hover destaca en Oro */
 }
 
-/* --- CONTENEDORES Y SECCIONES --- */
+/* --- SECCIONES --- */
 .contenedor-principal {
     max-width: 1200px;
     margin: 40px auto;
-    padding: 0 20px;
+    padding: 0 25px;
 }
 
-/* Banner Principal Estilo Underground / Café */
+/* Banner Principal */
 .hero-banner {
-    background-color: var(--bg-card);
+    background: linear-gradient(135deg, #161616 0%, #202020 100%); /* Degradado sutil para vida */
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 70px 40px;
+    border-radius: 8px;
+    padding: 80px 50px;
     text-align: center;
-    margin-bottom: 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    margin-bottom: 50px;
 }
 
 .hero-banner h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--text-main);
     margin-top: 0;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-transform: uppercase;
+    font-weight: 900;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .hero-banner p {
     color: var(--text-muted);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 20px auto 30px auto;
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 25px auto 40px auto;
+    font-weight: 400;
 }
 
 /* Tarjeta Promocional */
 .promo-card {
     background: #111111;
-    border: 1px solid var(--accent);
-    border-radius: 4px;
-    padding: 40px;
+    border: 1px solid var(--accent); /* Borde de Oro */
+    border-radius: 8px;
+    padding: 45px;
     color: var(--text-main);
-    margin-bottom: 40px;
+    margin-bottom: 50px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
 }
 
 .promo-card h3 {
-    color: var(--accent);
+    color: var(--accent); /* Título en Oro */
     letter-spacing: 1px;
     text-transform: uppercase;
+    font-size: 1.8rem;
+    margin-top: 0;
 }
 
-/* Botones con estilo rudo/artesanal (Sin emojis de maíz) */
+/* Botones con Vida (Borde Dorado, Fondo Claro al pasar) */
 .btn-artesanal, .nav-btn, .tarjeta-producto button {
     background-color: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--text-main);
-    padding: 12px 25px;
-    border-radius: 2px;
+    color: var(--accent);
+    border: 2px solid var(--accent); /* Borde más grueso y dorado */
+    padding: 12px 30px;
+    border-radius: 4px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: inline-block;
 }
 
 .btn-artesanal:hover, .nav-btn:hover, .tarjeta-producto button:hover {
     background-color: var(--accent);
     border-color: var(--accent);
-    color: var(--bg-primary);
+    color: var(--bg-primary); /* El texto se oscurece para contraste */
+    box-shadow: 0 4px 15px rgba(197, 160, 101, 0.4); /* Brillo suave */
 }
 
-/* Grid de Productos de Café */
+/* Grid de Productos */
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
 }
 
 .tarjeta-producto {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: border-color 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tarjeta-producto:hover {
-    border-color: var(--accent);
+    transform: translateY(-5px);
+    border-color: var(--accent); /* El borde se ilumina al pasar */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
 
 .tarjeta-producto img {
     width: 100%;
-    height: 260px;
+    height: 280px;
     object-fit: cover;
-    filter: grayscale(20%) contrast(110%); /* Look más crudo/oscuro */
+    filter: contrast(105%); /* Pequeño ajuste de vida a la imagen */
 }
 
 .tarjeta-producto h3 {
-    font-size: 1.2rem;
-    margin: 20px 20px 5px 20px;
+    font-size: 1.3rem;
+    margin: 25px 25px 10px 25px;
     color: var(--text-main);
+    font-weight: 600;
 }
 
 .tarjeta-producto p {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--accent);
-    margin: 0 20px 20px 20px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent); /* Precio en Oro */
+    margin: 0 25px 20px 25px;
 }
 
 .tarjeta-producto button {
-    margin: 0 20px 20px 20px;
+    margin: 0 25px 25px 25px;
     text-align: center;
+    width: calc(100% - 50px); /* Botón que ocupa todo el ancho */
 }
