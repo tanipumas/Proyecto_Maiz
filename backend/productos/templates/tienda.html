@@ -1,67 +1,88 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Insumos Molineros de México</title>
+    <title>Molinera Artesanal • Catálogo</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
-        .modal-login { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-        .modal-contenido { background-color: white; padding: 30px; border-radius: 8px; width: 100%; max-width: 350px; position: relative; text-align: center; }
+        .modal-login { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); align-items: center; justify-content: center; }
+        .modal-contenido { background-color: var(--bg-card, #1e1e1e); color: var(--text-main, #f5f5f5); padding: 30px; border-radius: 8px; width: 100%; max-width: 350px; position: relative; text-align: center; border: 1px solid var(--border-color, #333); }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="{% url 'inicio' %}" class="nav-logo">🌾 INSUMOS MOLINEROS</a>
+    <header class="molinera-header">
+        <div class="logo-area">
+            <h1><a href="{% url 'inicio' %}" style="color: inherit; text-decoration: none;">🌾 MOLINERA ARTESANAL</a></h1>
+            <p class="tagline">Del grano a tu mesa • Selección y molienda de especialidad</p>
+        </div>
         
         <div style="display: flex; align-items: center; gap: 35px;">
-            <ul class="nav-links">
+            <ul class="nav-links" style="list-style: none; display: flex; gap: 20px; margin: 0; padding: 0;">
                 <li><a href="{% url 'dashboard' %}">Inicio</a></li>
-                <li><a href="{% url 'tienda' %}" class="active">Tienda</a></li>
+                <li><a href="{% url 'tienda' %}" class="active" style="color: var(--accent, #d4a373);">Tienda</a></li>
                 <li id="menu-privado-perfil" style="display: none;"><a href="{% url 'perfil' %}">Mi Perfil</a></li>
                 <li id="menu-privado-carrito" style="display: none;"><a href="{% url 'carrito' %}" class="nav-cart">🛒 Carrito</a></li>
             </ul>
             
             <div id="auth-seccion" style="display: flex; gap: 15px; align-items: center;">
-                <button id="btn-nav-login" class="nav-btn">🔐 Iniciar Sesión</button>
-                <button id="btn-nav-registro" class="nav-btn" style="background-color: #1565c0;">📝 Registrarse</button>
+                <button id="btn-nav-login" class="carrito-btn" style="background: transparent; border: 1px solid var(--accent, #d4a373); color: var(--accent, #d4a373);">Iniciar Sesión</button>
+                <button id="btn-nav-registro" class="carrito-btn">Registrarse</button>
                 
                 <div id="nav-usuario-info" style="display: none; align-items: center; gap: 15px;">
-                    <span id="nav-nombre-usuario" style="font-weight: bold; color: white;"></span>
-                    <button class="nav-btn" onclick="window.cerrarSesionCliente()" style="background-color: #c62828;">Salir</button>
+                    <span id="nav-nombre-usuario" style="font-weight: bold; color: var(--accent, #d4a373);"></span>
+                    <button class="carrito-btn" onclick="window.cerrarSesionCliente()" style="background-color: #8b0000; color: white;">Salir</button>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
     {% include 'modales.html' %}
 
     <main class="contenedor-principal" style="padding: 40px 20px;">
-        <div id="contenedor-tienda" class="contenedor-principal"></div>
+        <div id="contenedor-tienda"></div>
     </main>
 
     <script src="{% static 'app.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica de visibilidad
+            // Lógica de visibilidad de sesión
             const token = localStorage.getItem('cliente_token');
             if (token) {
-                document.getElementById('menu-privado-carrito').style.display = 'block';
-                document.getElementById('menu-privado-perfil').style.display = 'block';
-                document.getElementById('btn-nav-login').style.display = 'none';
-                document.getElementById('btn-nav-registro').style.display = 'none'; 
-                document.getElementById('nav-usuario-info').style.display = 'flex';
-                document.getElementById('nav-nombre-usuario').innerText = localStorage.getItem('usuario_nombre') || "Cliente";
+                const menuCarrito = document.getElementById('menu-privado-carrito');
+                const menuPerfil = document.getElementById('menu-privado-perfil');
+                const btnLogin = document.getElementById('btn-nav-login');
+                const btnRegistro = document.getElementById('btn-nav-registro');
+                const navUsuarioInfo = document.getElementById('nav-usuario-info');
+                const navNombreUsuario = document.getElementById('nav-nombre-usuario');
+
+                if (menuCarrito) menuCarrito.style.display = 'block';
+                if (menuPerfil) menuPerfil.style.display = 'block';
+                if (btnLogin) btnLogin.style.display = 'none';
+                if (btnRegistro) btnRegistro.style.display = 'none'; 
+                if (navUsuarioInfo) navUsuarioInfo.style.display = 'flex';
+                if (navNombreUsuario) navNombreUsuario.innerText = localStorage.getItem('usuario_nombre') || "Cliente";
             }
 
-            // Eventos seguros
-            document.getElementById('btn-nav-login').addEventListener('click', () => {
-                if (window.abrirModalAutenticacion) window.abrirModalAutenticacion();
-            });
-            document.getElementById('btn-nav-registro').addEventListener('click', () => {
-                if (window.abrirModalRegistro) window.abrirModalRegistro();
-            });
+            // Eventos seguros para los modales
+            const btnLogin = document.getElementById('btn-nav-login');
+            if (btnLogin) {
+                btnLogin.addEventListener('click', () => {
+                    if (window.abrirModalAutenticacion) window.abrirModalAutenticacion();
+                });
+            }
+
+            const btnRegistro = document.getElementById('btn-nav-registro');
+            if (btnRegistro) {
+                btnRegistro.addEventListener('click', () => {
+                    if (window.abrirModalRegistro) window.abrirModalRegistro();
+                });
+            }
+            
+            // Cargar los productos agrupados automáticamente al abrir la tienda
+            if (typeof cargarProductos === 'function') {
+                cargarProductos();
+            }
         });
     </script>
 </body>
